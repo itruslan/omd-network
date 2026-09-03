@@ -1,0 +1,144 @@
+name: labs
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  syntax:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: bash -n 03-local-networking/lab.sh
+      - run: shellcheck 03-local-networking/lab.sh
+
+  inspect-network:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Ожидаемый вывод продублирован из главы 2, раздел "Практика".
+      # Расхождение здесь означает, что глава и скрипт разошлись.
+      - name: IPv4
+        run: |
+          cat > expected <<'EOF'
+          input: 192.0.2.70/26
+          network: 192.0.2.64/26
+          netmask: 255.255.255.192
+          addresses: 64
+          first: 192.0.2.64
+          last: 192.0.2.127
+          broadcast: 192.0.2.127
+          192.0.2.100: inside
+          192.0.2.130: outside
+          EOF
+          python3 02-ip-cidr-subnets/inspect_network.py \
+            192.0.2.70/26 192.0.2.100 192.0.2.130 > actual
+          diff -u expected actual
+
+      - name: IPv6
+        run: |
+          cat > expected <<'EOF'
+          input: 2001:db8:1200:34::10/64
+          network: 2001:db8:1200:34::/64
+          netmask: ffff:ffff:ffff:ffff::
+          addresses: 18446744073709551616
+          first: 2001:db8:1200:34::
+          last: 2001:db8:1200:34:ffff:ffff:ffff:ffff
+          2001:db8:1200:34::20: inside
+          2001:db8:1200:35::20: outside
+          EOF
+          python3 02-ip-cidr-subnets/inspect_network.py \
+            2001:db8:1200:34::10/64 2001:db8:1200:34::20 2001:db8:1200:35::20 > actual
+          diff -u expected actual
+
+  lab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Установить tcpdump
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq tcpdump
+
+      # Ожидаемые строки продублированы из главы 3, раздел "Результат и требования".
+      - name: check проходит и печатает обещанные строки
+        run: |
+          sudo bash 03-local-networking/lab.sh check | tee out
+          grep -q '\[ ok \]   bridge VLAN filtering can be enabled' out
+          grep -q '\[ ok \]   a port can be assigned to an access VLAN' out
+          grep -q '\[ ok \]   IPv6 and ping work inside a namespace' out
+          grep -q '^Environment is ready: all checks passed\.$' out
+
+      - name: Шаг 1 — up печатает то же, что в главе
+        run: |
+          cat > expected <<'EOF'
+          Lab is ready.
+          Client: 192.0.2.10/24, 2001:db8:3::10/64
+          Server: 192.0.2.20/24, 2001:db8:3::20/64
+          EOF
+          sudo bash 03-local-networking/lab.sh up > actual
+          diff -u expected actual
+          sudo bash 03-local-networking/lab.sh status > /dev/null
+
+      - name: Шаг 2 — ARP, NDP и FDB
+        run: |
+          sudo ip netns exec dn-client ping -c 2 192.0.2.20 > /dev/null
+          sudo ip -n dn-client neigh show 192.0.2.20 | grep -q 'lladdr'
+          # Адрес IPv6 остаётся tentative, пока не завершится проверка уникальности.
+          sleep 2
+          sudo ip netns exec dn-client ping -6 -c 2 2001:db8:3::20 > /dev/null
+          sudo ip -6 -n dn-client neigh show 2001:db8:3::20 | grep -q 'lladdr'
+          # Изученная запись отличается от служебных отсутствием флага permanent.
+          sudo bridge fdb show br dn-br0 | grep 'dev dn-c-host' | grep -qv 'permanent'
+          sudo bridge fdb show br dn-br0 | grep 'dev dn-s-host' | grep -qv 'permanent'
+
+      - name: Шаг 4 — разные VLAN ломают связность
+        run: |
+          sudo ip link set dn-br0 type bridge vlan_filtering 1
+          sudo bridge vlan del dev dn-c-host vid 1
+          sudo bridge vlan del dev dn-s-host vid 1
+          sudo bridge vlan add dev dn-c-host vid 10 pvid untagged
+          sudo bridge vlan add dev dn-s-host vid 20 pvid untagged
+          sudo ip -n dn-client neigh flush dev eth0
+          if sudo ip netns exec dn-client ping -c 2 -W 1 192.0.2.20 > /dev/null 2>&1; then
+            echo "Связность сохранилась, хотя порты в разных VLAN" >&2
+            exit 1
+          fi
+          sudo ip -n dn-client neigh show 192.0.2.20 | grep -Eq 'INCOMPLETE|FAILED'
+
+      - name: Шаг 4 — выравнивание VID возвращает связность
+        run: |
+          sudo bridge vlan del dev dn-s-host vid 20
+          sudo bridge vlan add dev dn-s-host vid 10 pvid untagged
+          sudo ip -n dn-client neigh flush dev eth0
+          sudo ip netns exec dn-client ping -c 2 192.0.2.20 > /dev/null
+
+      - name: Очистка не оставляет объектов
+        run: |
+          sudo bash 03-local-networking/lab.sh down
+          if ip -br link show | grep -q 'dn-'; then
+            echo "После down остались интерфейсы dn-*" >&2
+            exit 1
+          fi
+          if ip netns list | grep -q 'dn-'; then
+            echo "После down остались namespace dn-*" >&2
+            exit 1
+          fi
+
+      - name: Защита от коллизий
+        run: |
+          sudo bash 03-local-networking/lab.sh up > /dev/null
+          if sudo bash 03-local-networking/lab.sh up > /dev/null 2>&1; then
+            echo "Повторный up не отказал" >&2
+            exit 1
+          fi
+          sudo ip link add dn-check-br0 type bridge
+          if sudo bash 03-local-networking/lab.sh check > /dev/null 2>&1; then
+            echo "check не отказал при существующем dn-check-br0" >&2
+            exit 1
+          fi
+          sudo bash 03-local-networking/lab.sh down
+          if ip -br link show | grep -q 'dn-'; then
+            echo "down не убрал остаток проверки" >&2
+            exit 1
+          fi
