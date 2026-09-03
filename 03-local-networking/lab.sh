@@ -17,7 +17,6 @@ check_bridge="dn-check-br0"
 check_host_if="dn-check-h"
 check_ns_if="dn-check-p"
 check_failures=0
-check_warnings=0
 
 require_root() {
     if [[ ${EUID} -ne 0 ]]; then
@@ -137,11 +136,6 @@ check_ok() {
     printf '[ ok ]   %s\n' "$1"
 }
 
-check_warn() {
-    printf '[ warn ] %s\n' "$1"
-    check_warnings=$((check_warnings + 1))
-}
-
 check_fail() {
     printf '[ FAIL ] %s\n' "$1"
     check_failures=$((check_failures + 1))
@@ -165,18 +159,21 @@ check_cleanup() {
 run_check() {
     local tool
     local bridge_ready=0
+    local namespace_ready=0
     local port_ready=0
 
-    trap check_cleanup EXIT
-    check_cleanup
+    if namespace_exists "${check_ns}" || link_exists "${check_bridge}" || \
+        link_exists "${check_host_if}" || link_exists "${check_ns_if}"; then
+        printf 'A check object already exists. Run "%s down" after checking its names.\n' "$0" >&2
+        return 1
+    fi
 
+    trap check_cleanup EXIT
     printf 'Checking the environment required by this lab.\n\n'
 
     for tool in ping tcpdump; do
         if command -v "${tool}" >/dev/null 2>&1; then
             check_ok "command available: ${tool}"
-        elif [[ ${tool} == tcpdump ]]; then
-            check_warn "command not found: tcpdump (needed only for the capture step)"
         else
             check_fail "command not found: ${tool}"
         fi
@@ -184,6 +181,7 @@ run_check() {
 
     if ip netns add "${check_ns}" >/dev/null 2>&1; then
         check_ok "network namespace can be created"
+        namespace_ready=1
     else
         check_fail "network namespace cannot be created"
     fi
@@ -224,25 +222,26 @@ run_check() {
         fi
     fi
 
-    if namespace_exists "${check_ns}" && [[ ${port_ready} -eq 1 ]]; then
+    if [[ ${namespace_ready} -eq 1 && ${port_ready} -eq 1 ]]; then
         ip link set "${check_ns_if}" netns "${check_ns}" >/dev/null 2>&1 || true
+        ip -n "${check_ns}" link set lo up >/dev/null 2>&1 || true
         ip -n "${check_ns}" link set "${check_ns_if}" up >/dev/null 2>&1 || true
         ip -6 -n "${check_ns}" addr add 2001:db8:3::1/64 dev "${check_ns_if}" >/dev/null 2>&1 || true
-        if ip -6 -n "${check_ns}" addr show dev "${check_ns_if}" 2>/dev/null | grep -q '2001:db8:3::1'; then
-            check_ok "IPv6 addresses can be assigned inside a namespace"
+        if ip -6 -n "${check_ns}" addr show dev "${check_ns_if}" 2>/dev/null | grep -q '2001:db8:3::1' && \
+            ip netns exec "${check_ns}" ping -6 -c 1 ::1 >/dev/null 2>&1; then
+            check_ok "IPv6 and ping work inside a namespace"
         else
-            check_fail "IPv6 is unavailable inside the namespace (steps 2 and 3 will not work)"
+            check_fail "IPv6 or ping is unavailable inside the namespace (steps 2 and 3 will not work)"
         fi
     fi
 
     printf '\n'
     if [[ ${check_failures} -gt 0 ]]; then
-        printf 'Environment is not ready: %d check(s) failed, %d warning(s).\n' \
-            "${check_failures}" "${check_warnings}" >&2
+        printf 'Environment is not ready: %d check(s) failed.\n' "${check_failures}" >&2
         return 1
     fi
 
-    printf 'Environment is ready: all checks passed, %d warning(s).\n' "${check_warnings}"
+    printf 'Environment is ready: all checks passed.\n'
     return 0
 }
 
@@ -268,6 +267,7 @@ case "${1:-}" in
     down)
         require_root
         cleanup
+        check_cleanup
         printf 'Lab objects were removed if they existed.\n'
         ;;
     *)
