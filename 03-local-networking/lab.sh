@@ -12,6 +12,13 @@ server_ns_if="dn-s-ns"
 observer_ns="dn-observer"
 observer_host_if="dn-o-host"
 
+check_ns="dn-check-ns"
+check_bridge="dn-check-br0"
+check_host_if="dn-check-h"
+check_ns_if="dn-check-p"
+check_failures=0
+check_warnings=0
+
 require_root() {
     if [[ ${EUID} -ne 0 ]]; then
         printf 'Run this command with sudo.\n' >&2
@@ -126,8 +133,121 @@ show_status() {
     fi
 }
 
+check_ok() {
+    printf '[ ok ]   %s\n' "$1"
+}
+
+check_warn() {
+    printf '[ warn ] %s\n' "$1"
+    check_warnings=$((check_warnings + 1))
+}
+
+check_fail() {
+    printf '[ FAIL ] %s\n' "$1"
+    check_failures=$((check_failures + 1))
+}
+
+check_cleanup() {
+    if namespace_exists "${check_ns}"; then
+        ip netns delete "${check_ns}" >/dev/null 2>&1 || true
+    fi
+    if link_exists "${check_ns_if}"; then
+        ip link delete "${check_ns_if}" >/dev/null 2>&1 || true
+    fi
+    if link_exists "${check_host_if}"; then
+        ip link delete "${check_host_if}" >/dev/null 2>&1 || true
+    fi
+    if link_exists "${check_bridge}"; then
+        ip link delete "${check_bridge}" >/dev/null 2>&1 || true
+    fi
+}
+
+run_check() {
+    local tool
+    local bridge_ready=0
+    local port_ready=0
+
+    trap check_cleanup EXIT
+    check_cleanup
+
+    printf 'Checking the environment required by this lab.\n\n'
+
+    for tool in ping tcpdump; do
+        if command -v "${tool}" >/dev/null 2>&1; then
+            check_ok "command available: ${tool}"
+        elif [[ ${tool} == tcpdump ]]; then
+            check_warn "command not found: tcpdump (needed only for the capture step)"
+        else
+            check_fail "command not found: ${tool}"
+        fi
+    done
+
+    if ip netns add "${check_ns}" >/dev/null 2>&1; then
+        check_ok "network namespace can be created"
+    else
+        check_fail "network namespace cannot be created"
+    fi
+
+    if ip link add "${check_host_if}" type veth peer name "${check_ns_if}" >/dev/null 2>&1; then
+        check_ok "veth pair can be created"
+        port_ready=1
+    else
+        check_fail "veth pair cannot be created"
+    fi
+
+    if ip link add "${check_bridge}" type bridge >/dev/null 2>&1; then
+        check_ok "bridge can be created"
+        bridge_ready=1
+    else
+        check_fail "bridge cannot be created"
+    fi
+
+    # The lab breaks and repairs connectivity with VLAN filtering, so a silent
+    # no-op here would make step 4 impossible to interpret. Read the value back
+    # instead of trusting the exit status.
+    if [[ ${bridge_ready} -eq 1 ]]; then
+        ip link set "${check_bridge}" type bridge vlan_filtering 1 >/dev/null 2>&1 || true
+        if ip -d link show "${check_bridge}" 2>/dev/null | grep -q 'vlan_filtering 1'; then
+            check_ok "bridge VLAN filtering can be enabled"
+        else
+            check_fail "bridge VLAN filtering is not available (step 4 will not work)"
+        fi
+    fi
+
+    if [[ ${bridge_ready} -eq 1 && ${port_ready} -eq 1 ]]; then
+        ip link set "${check_host_if}" master "${check_bridge}" >/dev/null 2>&1 || true
+        bridge vlan add dev "${check_host_if}" vid 10 pvid untagged >/dev/null 2>&1 || true
+        if bridge vlan show dev "${check_host_if}" 2>/dev/null | grep -qw '10'; then
+            check_ok "a port can be assigned to an access VLAN"
+        else
+            check_fail "VLAN membership cannot be assigned to a bridge port"
+        fi
+    fi
+
+    if namespace_exists "${check_ns}" && [[ ${port_ready} -eq 1 ]]; then
+        ip link set "${check_ns_if}" netns "${check_ns}" >/dev/null 2>&1 || true
+        ip -n "${check_ns}" link set "${check_ns_if}" up >/dev/null 2>&1 || true
+        ip -6 -n "${check_ns}" addr add 2001:db8:3::1/64 dev "${check_ns_if}" >/dev/null 2>&1 || true
+        if ip -6 -n "${check_ns}" addr show dev "${check_ns_if}" 2>/dev/null | grep -q '2001:db8:3::1'; then
+            check_ok "IPv6 addresses can be assigned inside a namespace"
+        else
+            check_fail "IPv6 is unavailable inside the namespace (steps 2 and 3 will not work)"
+        fi
+    fi
+
+    printf '\n'
+    if [[ ${check_failures} -gt 0 ]]; then
+        printf 'Environment is not ready: %d check(s) failed, %d warning(s).\n' \
+            "${check_failures}" "${check_warnings}" >&2
+        return 1
+    fi
+
+    printf 'Environment is ready: all checks passed, %d warning(s).\n' "${check_warnings}"
+    return 0
+}
+
 usage() {
-    printf 'Usage: %s {up|status|down}\n' "$0" >&2
+    printf 'Usage: %s {up|check|status|down}\n' "$0" >&2
     exit 2
 }
 
@@ -137,6 +257,10 @@ case "${1:-}" in
     up)
         require_root
         create_lab
+        ;;
+    check)
+        require_root
+        run_check
         ;;
     status)
         show_status
