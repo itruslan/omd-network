@@ -83,12 +83,32 @@ run_check() {
         bad "veth-пару создать не удалось"
     fi
 
+    # Шаги 4 и 5 опираются на то, что пересылка транзитного трафика не
+    # запрещена по умолчанию. Docker и корпоративные настройки эту политику
+    # меняют, и тогда практика не даст обещанного результата — узнать об
+    # этом надо до начала, а не на середине.
+    local fwd_policy
+    fwd_policy="$(iptables -S FORWARD 2>/dev/null | awk '/^-P FORWARD/ {print $3; exit}')"
+    if [[ -z ${fwd_policy} ]]; then
+        fwd_policy="$(nft list chain inet filter forward 2>/dev/null \
+            | awk '/policy/ {gsub(/;/, ""); print toupper($NF); exit}')"
+    fi
+    case "${fwd_policy}" in
+        ACCEPT|"")
+            ok "пересылка транзитного трафика не запрещена политикой"
+            ;;
+        *)
+            printf '[ note ] политика пересылки — %s: в шагах 4 и 5 понадобятся\n' "${fwd_policy}"
+            printf '         разрешающие правила, как описано в главе\n'
+            ;;
+    esac
+
     # Docker не обязателен: без него глава проходится целиком, теряется
     # только сравнение с настоящим контейнером.
     if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
-        ok "docker доступен: сравнение в шаге 8 будет на живой системе"
+        ok "docker доступен: сравнение в шаге 7 будет на живой системе"
     else
-        printf '[ note ] docker недоступен: шаг 8 пройдите по выводам из главы\n'
+        printf '[ note ] docker недоступен: шаг 7 пройдите по выводам из главы\n'
     fi
 
     printf '\n'
@@ -214,9 +234,10 @@ docker_facts() {
     printf '\n### Публикация портов\n'
     iptables -t nat -S DOCKER 2>/dev/null | grep DNAT || printf 'опубликованных портов нет\n'
 
-    printf '\n### Разрешение ответов и обращений к опубликованной службе\n'
+    printf '\n### Правила пересылки, созданные Docker\n'
     iptables -S DOCKER-CT 2>/dev/null | grep ctstate || true
     iptables -S DOCKER 2>/dev/null | grep -E 'ACCEPT|DROP' || true
+    iptables -S DOCKER-FORWARD 2>/dev/null | grep -- '-i docker0' || true
 }
 
 # --- очистка ----------------------------------------------------------------
@@ -225,20 +246,24 @@ lab_down() {
     if [[ -f ${state_dir}/peer.pid ]]; then
         kill "$(cat "${state_dir}/peer.pid")" >/dev/null 2>&1 || true
     fi
+    # Службу в «контейнере» студент запускает вручную и обычно закрывает сам.
+    # Если она осталась в фоне, после удаления namespace процесс висел бы
+    # без сети — убираем и его.
     local ns
-    for ns in "${ns_app}" "${ns_peer}" "${check_ns}"; do
+    for ns in "${ns_app}" "${ns_app}2" "${ns_peer}" "${check_ns}"; do
         if namespace_exists "${ns}"; then
             ip netns delete "${ns}" >/dev/null 2>&1 || true
         fi
     done
     local link
-    for link in dn10-h dn10-p-host dn10-check-h "${br_app}" "${br_out}"; do
+    for link in dn10-h dn10-h2 dn10-p-host dn10-check-h "${br_app}" "${br_out}"; do
         if link_exists "${link}"; then
             ip link delete "${link}" >/dev/null 2>&1 || true
         fi
     done
     # Правила, добавленные студентом вручную, живут в своей таблице.
     nft delete table ip dn10nat >/dev/null 2>&1 || true
+    nft delete table inet dn10fw >/dev/null 2>&1 || true
     rm -rf "${state_dir}"
     echo "Объекты стенда удалены, если они существовали."
 }
