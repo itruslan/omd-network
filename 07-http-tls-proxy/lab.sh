@@ -72,7 +72,7 @@ run_check() {
     printf 'Проверка среды, нужной этой практике.\n\n'
 
     local tool
-    for tool in ip nginx openssl curl python3; do
+    for tool in ip nginx openssl curl tcpdump python3; do
         if command -v "${tool}" >/dev/null 2>&1; then
             ok "${tool} найден"
         else
@@ -144,7 +144,7 @@ issue_certs() {
         -keyout "${tls_dir}/server.key" -out "${tls_dir}/server.csr" >/dev/null 2>&1
 
     # Имя сервиса объявляется в subjectAltName: по RFC 9525 проверять имя по
-    # Common Name нельзя, и современные клиенты этого и не делают.
+    # Common Name запрещено, поэтому сертификат без этого расширения негоден.
     printf 'subjectAltName=DNS:%s\n' "${cert_name}" > "${tls_dir}/server.ext"
     openssl x509 -req -in "${tls_dir}/server.csr" -days 2 \
         -CA "${tls_dir}/ca.crt" -CAkey "${tls_dir}/ca.key" -CAcreateserial \
