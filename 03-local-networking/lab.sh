@@ -45,31 +45,31 @@ link_exists() {
 
 cleanup() {
     if namespace_exists "${observer_ns}"; then
-        ip netns delete "${observer_ns}"
+        ip netns delete "${observer_ns}" >/dev/null 2>&1 || true
     fi
     if namespace_exists "${client_ns}"; then
-        ip netns delete "${client_ns}"
+        ip netns delete "${client_ns}" >/dev/null 2>&1 || true
     fi
     if namespace_exists "${server_ns}"; then
-        ip netns delete "${server_ns}"
+        ip netns delete "${server_ns}" >/dev/null 2>&1 || true
     fi
     if link_exists "${client_host_if}"; then
-        ip link delete "${client_host_if}"
+        ip link delete "${client_host_if}" >/dev/null 2>&1 || true
     fi
     if link_exists "${server_host_if}"; then
-        ip link delete "${server_host_if}"
+        ip link delete "${server_host_if}" >/dev/null 2>&1 || true
     fi
     if link_exists "${client_ns_if}"; then
-        ip link delete "${client_ns_if}"
+        ip link delete "${client_ns_if}" >/dev/null 2>&1 || true
     fi
     if link_exists "${server_ns_if}"; then
-        ip link delete "${server_ns_if}"
+        ip link delete "${server_ns_if}" >/dev/null 2>&1 || true
     fi
     if link_exists "${observer_host_if}"; then
-        ip link delete "${observer_host_if}"
+        ip link delete "${observer_host_if}" >/dev/null 2>&1 || true
     fi
     if link_exists "${bridge_name}"; then
-        ip link delete "${bridge_name}"
+        ip link delete "${bridge_name}" >/dev/null 2>&1 || true
     fi
 }
 

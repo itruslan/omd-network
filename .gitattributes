@@ -1,0 +1,15 @@
+# Определять текстовые файлы автоматически и хранить их в репозитории с LF.
+* text=auto eol=lf
+
+# Скрипты практик выполняются в Linux. Если Git for Windows выдаст их с CRLF,
+# bash упадёт на `$'\r': command not found` уже внутри WSL2 — среды, которую
+# курс рекомендует пользователям Windows.
+*.sh text eol=lf
+*.py text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+
+# Артефакты наблюдений глав не трогать.
+*.pcap binary
+*.pcapng binary
+*.png binary
