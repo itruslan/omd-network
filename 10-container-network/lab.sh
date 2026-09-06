@@ -22,6 +22,7 @@ state_dir="/run/dn10-lab"
 ns_app="dn10-app"          # «контейнер», который собирает студент
 ns_peer="dn10-peer"        # внешний узел
 br_app="dn10-br0"          # мост контейнерной сети
+veth_host="dn10-h"         # хостовый конец veth, который студент включает в мост
 br_out="dn10-br-out"       # внешний сегмент
 
 ip_br_app="10.10.0.1"      # адрес моста на хосте: он же шлюз контейнера
@@ -87,21 +88,37 @@ run_check() {
     # запрещена по умолчанию. Docker и корпоративные настройки эту политику
     # меняют, и тогда практика не даст обещанного результата — узнать об
     # этом надо до начала, а не на середине.
-    local fwd_policy
-    fwd_policy="$(iptables -S FORWARD 2>/dev/null | awk '/^-P FORWARD/ {print $3; exit}')"
-    if [[ -z ${fwd_policy} ]]; then
-        fwd_policy="$(nft list chain inet filter forward 2>/dev/null \
-            | awk '/policy/ {gsub(/;/, ""); print toupper($NF); exit}')"
-    fi
-    case "${fwd_policy}" in
-        ACCEPT|"")
-            ok "пересылка транзитного трафика не запрещена политикой"
-            ;;
-        *)
-            printf '[ note ] политика пересылки — %s: в шагах 4 и 5 понадобятся\n' "${fwd_policy}"
-            printf '         разрешающие правила, как описано в главе\n'
-            ;;
+    #
+    # Цепочек с хуком forward может быть несколько, и запрет в любой из них
+    # остановит трафик. Прежняя проверка смотрела только `iptables FORWARD`,
+    # а при пустом ответе — только `inet filter forward`, и печатала «не
+    # запрещена» при запрете в любой другой таблице.
+    #
+    # Присваивания закрыты `|| true`: под `set -e` с `pipefail` отказ
+    # подстановки прерывал проверку молча, на середине. На системе без
+    # `iptables` — а он в списке обязательных инструментов не значится —
+    # скрипт умирал ровно здесь, ничего не сказав.
+    local fwd_deny="" ipt_policy="" nft_deny=""
+    ipt_policy="$(iptables -S FORWARD 2>/dev/null \
+        | awk '/^-P FORWARD/ {print $3; exit}')" || true
+    case "${ipt_policy}" in
+        DROP|REJECT) fwd_deny="iptables FORWARD (${ipt_policy})" ;;
     esac
+    nft_deny="$(nft list ruleset 2>/dev/null | awk '
+        /^table / { family = $2; table = $3 }
+        /^[[:space:]]*chain / { chain = $2 }
+        /hook forward/ && /policy drop/ { printf "%s %s %s; ", family, table, chain }
+    ')" || true
+    if [[ -n ${nft_deny} ]]; then
+        fwd_deny="${fwd_deny:+${fwd_deny}, }nft: ${nft_deny%; }"
+    fi
+    if [[ -z ${fwd_deny} ]]; then
+        ok "пересылка транзитного трафика не запрещена политикой"
+    else
+        printf '[ note ] пересылка запрещена политикой: %s\n' "${fwd_deny}"
+        printf '         в шагах 4 и 5 понадобятся разрешающие правила,\n'
+        printf '         как описано в главе\n'
+    fi
 
     # Docker не обязателен: без него глава проходится целиком, теряется
     # только сравнение с настоящим контейнером.
@@ -181,6 +198,24 @@ verify_lab() {
         miss "у моста нет адреса ${ip_br_app}: контейнеру некуда слать пакеты"
     fi
 
+    # Без этих двух пунктов проверка подтверждала «сеть собрана полностью»
+    # на сети, где контейнер не видит даже собственного шлюза: адреса,
+    # namespace и маршрут были на месте, а кадрам было некуда идти.
+    if link_exists "${veth_host}"; then
+        pass "хостовый конец veth ${veth_host} существует"
+    else
+        miss "хостового конца veth ${veth_host} нет: пара не создана"
+    fi
+
+    local veth_master=""
+    veth_master="$(ip -o link show "${veth_host}" 2>/dev/null \
+        | sed -n 's/.*master \([^ ]*\).*/\1/p')" || true
+    if [[ ${veth_master} == "${br_app}" ]]; then
+        pass "${veth_host} включён в мост ${br_app}"
+    else
+        miss "${veth_host} не включён в мост ${br_app}: кадры контейнера никуда не попадут"
+    fi
+
     if namespace_exists "${ns_app}"; then
         pass "namespace ${ns_app} существует"
     else
@@ -203,6 +238,15 @@ verify_lab() {
         pass "пересылка на хосте включена"
     else
         miss "пересылка на хосте выключена: хост не станет маршрутизатором"
+    fi
+
+    # Перечень настроек не заменяет обмена: связь может отсутствовать по
+    # причине, которой в перечне нет. Ответ шлюза подтверждает собранное
+    # целиком, а пункты выше говорят, где именно искать, если его нет.
+    if ip netns exec "${ns_app}" ping -c 1 -W 2 "${ip_br_app}" >/dev/null 2>&1; then
+        pass "из namespace отвечает шлюз ${ip_br_app}"
+    else
+        miss "из namespace шлюз ${ip_br_app} не отвечает"
     fi
 
     printf '\n'
@@ -256,7 +300,8 @@ lab_down() {
         fi
     done
     local link
-    for link in dn10-h dn10-h2 dn10-p-host dn10-check-h "${br_app}" "${br_out}"; do
+    for link in "${veth_host}" "${veth_host}2" dn10-p-host dn10-check-h \
+                "${br_app}" "${br_out}"; do
         if link_exists "${link}"; then
             ip link delete "${link}" >/dev/null 2>&1 || true
         fi
