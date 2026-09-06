@@ -58,14 +58,43 @@ check_fail() {
     check_failures=$((check_failures + 1))
 }
 
+# Номер процесса ядро переиспользует, поэтому одного его наличия мало:
+# `kill -0` подтверждает, что процесс с таким номером существует, но не что
+# это наш. Стенд работает от root, и слепой kill попал бы в чужой процесс,
+# занявший освободившийся номер. Вместе с номером сохраняем время старта из
+# /proc/<pid>/stat: пара «номер + время старта» процесс определяет однозначно.
+#
+# Поле comm в /proc/<pid>/stat заключено в скобки и может содержать и пробелы,
+# и скобки, поэтому разбор ведётся от последней закрывающей: после неё поля
+# начинаются с состояния, и время старта оказывается двадцатым.
+proc_starttime() {
+    local stat rest
+    stat=$(cat "/proc/$1/stat" 2>/dev/null) || return 1
+    rest=${stat##*) }
+    printf '%s' "${rest}" | awk '{print $20}'
+}
+
+# Печатает номер процесса, если файл описывает наш живой процесс.
+server_pid() {
+    local pidfile=$1 pid saved now
+    [[ -f ${pidfile} ]] || return 1
+    read -r pid saved < "${pidfile}" || return 1
+    [[ -n ${pid} && -n ${saved} ]] || return 1
+    now=$(proc_starttime "${pid}") || return 1
+    [[ ${now} == "${saved}" ]] || return 1
+    printf '%s' "${pid}"
+}
+
+# Записывает номер запущенного процесса вместе с временем старта.
+save_pid() {
+    printf '%s %s\n' "$1" "$(proc_starttime "$1")" > "$2"
+}
+
 stop_servers() {
     local pidfile pid
     shopt -s nullglob
     for pidfile in "${state_dir}"/*.pid; do
-        pid=$(cat "${pidfile}" 2>/dev/null || true)
-        # Проверяем, что процесс жив: после перезагрузки номер мог достаться
-        # чужому процессу, и слепой kill убил бы не то.
-        if [[ -n ${pid} ]] && kill -0 "${pid}" 2>/dev/null; then
+        if pid=$(server_pid "${pidfile}"); then
             kill "${pid}" 2>/dev/null || true
         fi
         rm -f "${pidfile}"
@@ -153,25 +182,31 @@ create_lab() {
 
 start_auth() {
     local pidfile="${state_dir}/auth.pid"
-    if [[ -f ${pidfile} ]] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+    if server_pid "${pidfile}" >/dev/null; then
         printf 'Авторитетный сервер уже запущен.\n'
         return 0
     fi
     mkdir -p "${state_dir}"
-    # --no-resolv и --no-hosts отрезают сервер от настроек хозяйской машины:
-    # он отвечает только из заданных здесь записей и ничего не пересылает.
+    # --conf-file=/dev/null, --no-resolv и --no-hosts вместе отрезают сервер
+    # от настроек хозяйской машины: он отвечает только из заданных здесь
+    # записей и ничего не пересылает. Одних --no-resolv и --no-hosts мало:
+    # они закрывают только resolv.conf и hosts, а /etc/dnsmasq.conf читается
+    # всё равно, и network namespace от него не изолирует. Проверено: файл с
+    # одной строкой `port=15353` уводил сервер с 53-го порта, и стенд
+    # переставал отвечать.
     # --auth-zone делает сервер настоящим авторитетным для зоны: на имя, которого
     # в ней нет, он отвечает NXDOMAIN, а не отказом. Без этого «имени не
     # существует» и «сервер не берётся отвечать» выглядели бы одинаково.
-    ip netns exec "${auth_ns}" dnsmasq --no-daemon --no-resolv --no-hosts \
+    ip netns exec "${auth_ns}" dnsmasq --no-daemon --conf-file=/dev/null \
+        --no-resolv --no-hosts \
         --auth-zone="${zone}" --auth-server="ns.${zone}" \
         --auth-ttl="${zone_ttl}" --local-ttl="${zone_ttl}" --log-queries \
         --host-record="web.${zone},198.51.100.80" \
         --host-record="api.${zone},198.51.100.81" \
         > "${state_dir}/auth.log" 2>&1 &
-    echo $! > "${pidfile}"
+    save_pid $! "${pidfile}"
     sleep 0.4
-    if ! kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+    if ! server_pid "${pidfile}" >/dev/null; then
         printf 'Авторитетный сервер не запустился:\n' >&2
         cat "${state_dir}/auth.log" >&2
         rm -f "${pidfile}"
@@ -181,20 +216,21 @@ start_auth() {
 
 start_resolver() {
     local pidfile="${state_dir}/resolver.pid"
-    if [[ -f ${pidfile} ]] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+    if server_pid "${pidfile}" >/dev/null; then
         printf 'Резолвер уже запущен.\n'
         return 0
     fi
     mkdir -p "${state_dir}"
     # Пересылка только для учебной зоны: всё остальное резолверу неизвестно, и
     # стенд не обращается наружу даже при опечатке в имени.
-    ip netns exec "${resolver_ns}" dnsmasq --no-daemon --no-resolv --no-hosts \
+    ip netns exec "${resolver_ns}" dnsmasq --no-daemon --conf-file=/dev/null \
+        --no-resolv --no-hosts \
         --log-queries --cache-size=150 \
         --server="/${zone}/198.51.100.54" \
         > "${state_dir}/resolver.log" 2>&1 &
-    echo $! > "${pidfile}"
+    save_pid $! "${pidfile}"
     sleep 0.4
-    if ! kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+    if ! server_pid "${pidfile}" >/dev/null; then
         printf 'Резолвер не запустился:\n' >&2
         cat "${state_dir}/resolver.log" >&2
         rm -f "${pidfile}"
@@ -204,8 +240,7 @@ start_resolver() {
 
 stop_auth() {
     local pidfile="${state_dir}/auth.pid" pid
-    pid=$(cat "${pidfile}" 2>/dev/null || true)
-    if [[ -n ${pid} ]] && kill -0 "${pid}" 2>/dev/null; then
+    if pid=$(server_pid "${pidfile}"); then
         kill "${pid}"
         rm -f "${pidfile}"
         printf 'Авторитетный сервер остановлен. Резолвер продолжает работать.\n'
@@ -229,8 +264,9 @@ show_status() {
     local name pidfile
     for name in auth resolver; do
         pidfile="${state_dir}/${name}.pid"
-        if [[ -f ${pidfile} ]] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
-            printf '  %-9s работает (pid %s)\n' "${name}" "$(cat "${pidfile}")"
+        local pid
+        if pid=$(server_pid "${pidfile}"); then
+            printf '  %-9s работает (pid %s)\n' "${name}" "${pid}"
         else
             printf '  %-9s не запущен\n' "${name}"
         fi
@@ -267,7 +303,7 @@ run_check() {
     if command -v getent >/dev/null 2>&1; then
         check_ok "command available: getent"
     else
-        check_fail "command not found: getent (шаг 5 не выполнить)"
+        check_fail "command not found: getent (шаг 4 не выполнить)"
     fi
 
     if ip netns add "${check_ns}" >/dev/null 2>&1; then
@@ -282,13 +318,14 @@ run_check() {
         check_ok "каталог ${netns_conf} доступен на запись"
         rmdir "${netns_conf}/${check_ns}" 2>/dev/null || true
     else
-        check_fail "нет доступа к ${netns_conf} (шаг 5 не выполнить)"
+        check_fail "нет доступа к ${netns_conf} (шаг 4 не выполнить)"
     fi
 
     # Главная проверка: поднимается ли dnsmasq внутри namespace и отвечает ли
     # он на запрос. Наличие команды этого ещё не гарантирует.
     ip -n "${check_ns}" link set lo up >/dev/null 2>&1 || true
-    ip netns exec "${check_ns}" dnsmasq --no-daemon --no-resolv --no-hosts \
+    ip netns exec "${check_ns}" dnsmasq --no-daemon --conf-file=/dev/null \
+        --no-resolv --no-hosts \
         --port=5353 --host-record="probe.${zone},127.0.0.1" \
         > "/tmp/dn6-check.log" 2>&1 &
     local probe=$!

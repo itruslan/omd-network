@@ -20,7 +20,11 @@ set -euo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 state_dir="/run/dn9-lab"
-evidence_root="${state_dir}/evidence"
+# Срезы лежат вне каталога состояния намеренно: `down` удаляет state_dir
+# целиком, и раньше очистка стирала ровно те доказательства, ради сохранения
+# которых глава и написана. К тому же /run — tmpfs, и срезы там не пережили бы
+# перезагрузку.
+evidence_root="/var/tmp/dn9-evidence"
 
 ns_client="dn9-client"
 ns_gw="dn9-gw"
@@ -324,8 +328,10 @@ reveal_fault() {
   - ping до того же адреса при этом проходит: правило смотрит на порт;
   - в `nft -a list ruleset` у этого правила растёт счётчик, у остальных нет;
   - в conntrack записи об этом соединении нет вовсе: пакет отброшен
-    до подтверждения записи, и само её отсутствие отличает
-    отброшенное соединение от установленного.
+    до подтверждения записи. Само по себе отсутствие записи причиной не
+    является — записи ещё и истекают по таймеру, а обращения могло не
+    быть вовсе. Здесь оно значимо потому, что отбрасывание уже
+    подтверждено выросшим счётчиком правила.
 EOF
 }
 
@@ -348,6 +354,15 @@ collect_evidence() {
     # сохранять как доказательство: по ним видно, какое правило сработало.
     gw nft -a list ruleset > "${dir}/gw-nftables.txt" 2>&1 || true
     gw conntrack -L > "${dir}/gw-conntrack.txt" 2>&1 || true
+    # Глава называет три вида данных, и статистика подсистемы — третий из них.
+    # Без -C и -S срез не отвечал на вопрос, не отказывала ли подсистема в
+    # создании записей, то есть был неполон ровно там, где обещал полноту.
+    {
+        printf '### conntrack -C (записей всего)\n'
+        gw conntrack -C 2>&1 || true
+        printf '\n### conntrack -S (статистика подсистемы)\n'
+        gw conntrack -S 2>&1 || true
+    } > "${dir}/gw-conntrack-stats.txt"
     ip -n "${ns_gw}" -s link > "${dir}/gw-links.txt" 2>&1 || true
 
     echo "Срез сохранён: ${dir}"
@@ -380,6 +395,19 @@ lab_down() {
     local ns
     for ns in "${ns_client}" "${ns_gw}" "${ns_server}" "${check_ns}"; do
         if namespace_exists "${ns}"; then
+            # Удаление имени namespace не завершает работающие в нём процессы:
+            # пространство живёт, пока его кто-то держит. В самостоятельном
+            # задании студент запускает службу в dn9-client руками, и она
+            # переживала очистку вместе с сетью, которую удерживала.
+            local pids
+            pids="$(ip netns pids "${ns}" 2>/dev/null || true)"
+            if [[ -n ${pids} ]]; then
+                # shellcheck disable=SC2086
+                kill ${pids} >/dev/null 2>&1 || true
+                sleep 0.2
+                # shellcheck disable=SC2086
+                kill -9 ${pids} >/dev/null 2>&1 || true
+            fi
             ip netns delete "${ns}" >/dev/null 2>&1 || true
         fi
     done
@@ -397,6 +425,11 @@ lab_down() {
     done
     rm -rf "${state_dir}"
     echo "Объекты стенда удалены, если они существовали."
+    if [[ -d ${evidence_root} ]] && [[ -n "$(ls -A "${evidence_root}" 2>/dev/null)" ]]; then
+        printf 'Срезы наблюдений сохранены: %s\n' "${evidence_root}"
+        printf 'Они не удаляются вместе со стендом. Когда разбор закончен: rm -rf %s\n' \
+            "${evidence_root}"
+    fi
 }
 
 case "${1:-}" in

@@ -62,14 +62,38 @@ check_fail() {
     check_failures=$((check_failures + 1))
 }
 
+# Номер процесса ядро переиспользует, поэтому одного его наличия мало:
+# `kill -0` подтверждает, что процесс с таким номером существует, но не что
+# это наш. Стенд работает от root, и слепой kill попал бы в чужой процесс,
+# занявший освободившийся номер. Вместе с номером сохраняем время старта из
+# /proc/<pid>/stat: пара «номер + время старта» процесс определяет однозначно.
+#
+# Поле comm в /proc/<pid>/stat заключено в скобки и может содержать и пробелы,
+# и скобки, поэтому разбор ведётся от последней закрывающей: после неё поля
+# начинаются с состояния, и время старта оказывается двадцатым.
+proc_starttime() {
+    local stat rest
+    stat=$(cat "/proc/$1/stat" 2>/dev/null) || return 1
+    rest=${stat##*) }
+    printf '%s' "${rest}" | awk '{print $20}'
+}
+
+# Печатает номер процесса, если файл описывает наш живой слушатель.
+listener_pid() {
+    local pidfile=$1 pid saved now
+    [[ -f ${pidfile} ]] || return 1
+    read -r pid saved < "${pidfile}" || return 1
+    [[ -n ${pid} && -n ${saved} ]] || return 1
+    now=$(proc_starttime "${pid}") || return 1
+    [[ ${now} == "${saved}" ]] || return 1
+    printf '%s' "${pid}"
+}
+
 stop_listeners() {
     local pidfile pid
     shopt -s nullglob
     for pidfile in "${state_dir}"/*.pid; do
-        pid=$(cat "${pidfile}" 2>/dev/null || true)
-        # Проверяем, что процесс ещё жив: после перезагрузки номер мог достаться
-        # чужому процессу, и слепой kill убил бы не то.
-        if [[ -n ${pid} ]] && kill -0 "${pid}" 2>/dev/null; then
+        if pid=$(listener_pid "${pidfile}"); then
             kill "${pid}" 2>/dev/null || true
         fi
         rm -f "${pidfile}"
@@ -149,16 +173,18 @@ start_listener() {
         printf 'Lab is not up. Run "%s up" first.\n' "$0" >&2
         exit 1
     fi
-    if [[ -f ${pidfile} ]] && kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
-        printf 'Слушатель %s уже запущен (pid %s).\n' "${proto}" "$(cat "${pidfile}")"
+    local running=""
+    if running=$(listener_pid "${pidfile}"); then
+        printf 'Слушатель %s уже запущен (pid %s).\n' "${proto}" "${running}"
         return 0
     fi
     mkdir -p "${state_dir}"
     ip netns exec "${server_ns}" python3 "${listener}" "${proto}" "${port}" ${once} \
         > "${state_dir}/${proto}.log" 2>&1 &
-    echo $! > "${pidfile}"
+    local started=$!
+    printf '%s %s\n' "${started}" "$(proc_starttime "${started}")" > "${pidfile}"
     sleep 0.3
-    if ! kill -0 "$(cat "${pidfile}")" 2>/dev/null; then
+    if ! listener_pid "${pidfile}" >/dev/null; then
         printf 'Слушатель %s не запустился:\n' "${proto}" >&2
         cat "${state_dir}/${proto}.log" >&2
         rm -f "${pidfile}"
@@ -218,7 +244,10 @@ run_check() {
     if command -v tcpdump >/dev/null 2>&1; then
         check_ok "command available: tcpdump"
     else
-        printf '[ note ] optional command not found: tcpdump (шаг 3 будет неполным)\n'
+        # Глава называет tcpdump обязательным: без него не пройти шаг 3 и не
+        # закрыть связанный с ним критерий приёмки. Пометка «optional»
+        # противоречила главе и позволяла проверке завершиться успехом.
+        check_fail "command not found: tcpdump (шаг 3 без него не пройти)"
     fi
 
     [[ -r ${listener} ]] && check_ok "listener.py на месте" \

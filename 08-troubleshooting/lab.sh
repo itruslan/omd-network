@@ -20,7 +20,12 @@ set -euo pipefail
 
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 state_dir="/run/dn8-lab"
-evidence_root="${state_dir}/evidence"
+# Срезы наблюдений лежат вне каталога состояния намеренно. Раньше
+# evidence_root был внутри state_dir, а `down` удаляет его целиком — то есть
+# буквальное выполнение практики стирало ровно те доказательства, ради
+# сохранения которых глава и написана. К тому же /run — tmpfs, и срезы там не
+# пережили бы перезагрузку.
+evidence_root="/var/tmp/dn8-evidence"
 
 ns_client="dn8-client"
 ns_router="dn8-router"
@@ -409,6 +414,13 @@ lab_down() {
     done
     rm -rf "${state_dir}"
     echo "Объекты стенда удалены, если они существовали."
+    # Срезы переживают очистку: удалять доказательства вместе со стендом
+    # значит обесценить работу, ради которой их снимали.
+    if [[ -d ${evidence_root} ]] && [[ -n "$(ls -A "${evidence_root}" 2>/dev/null)" ]]; then
+        printf 'Срезы наблюдений сохранены: %s\n' "${evidence_root}"
+        printf 'Они не удаляются вместе со стендом. Когда разбор закончен: rm -rf %s\n' \
+            "${evidence_root}"
+    fi
 }
 
 case "${1:-}" in

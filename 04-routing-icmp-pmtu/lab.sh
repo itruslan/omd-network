@@ -175,8 +175,12 @@ widen_link() {
     ip -n "${server_ns}" link set "${server_ns_if}" mtu 1500
     # A learned Path MTU is cached as a route exception and outlives the change
     # that caused it, so the cache is flushed to make the repair observable.
+    # Both families are flushed: step 4 teaches the client a PMTU for IPv4 and
+    # IPv6 alike, and "ip route flush cache" without -6 clears only IPv4 —
+    # the IPv6 exception would survive and make the repair look incomplete.
     ip -n "${client_ns}" route flush cache 2>/dev/null || true
-    printf 'MTU is back to 1500 and the client route cache was flushed.\n'
+    ip -6 -n "${client_ns}" route flush cache 2>/dev/null || true
+    printf 'MTU is back to 1500 and the client route cache was flushed for IPv4 and IPv6.\n'
 }
 
 break_forwarding() {
