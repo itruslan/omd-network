@@ -441,7 +441,7 @@ codes_from() {
 lab_matrix() {
     local c4 c6 e4 e6 client codes
     c4="$(cip 0)"; c6="$(cip 1)"; e4="$(ext_addr4)"; e6="$(ext_addr6)"
-    printf 'Код HTTP на новое соединение; 000 — ответа нет за 3 секунды.\n\n'
+    printf 'Код HTTP на новое соединение; 000 — HTTP-ответа нет: пакет отброшен, соединение отвергнуто или имя не разрешилось.\n\n'
     printf '%-18s %-6s %-6s %-9s %-6s %-6s\n' CLIENT API4 API6 API-NAME EXT4 EXT6
     for client in dn13/web dn13/batch dn13-mon/scraper dn13-mon/toolbox; do
         codes="$(codes_from "${client%/*}" "${client#*/}" \
@@ -565,14 +565,19 @@ lab_fix() {
 pass() { printf '[ ok ]   %s\n' "$1"; }
 miss() { printf '[  -  ]  %s\n' "$1"; verify_missing=$((verify_missing + 1)); }
 
-code_from() { kc -n "$1" exec "$2" -- curl -s -m 3 -o /dev/null -w '%{http_code}' "$3" 2>/dev/null || true; }
+# Код HTTP и код завершения curl через пробел: «200 0», «000 28».
+code_from() {
+    kc -n "$1" exec "$2" -- sh -c 'curl -s -m 3 -o /dev/null -w "%{http_code}" "$1"; echo " $?"' sh "$3" 2>/dev/null || true
+}
 
-# Разрешённое засчитывается по коду 200. Запрещённое — только по отсутствию
-# ответа, 000: пустой вывод означает, что не отработал сам exec, и о политике
-# ничего не говорит.
+# Разрешённое засчитывается по коду 200. Запрещённое — только по таймауту,
+# коду завершения curl 28: Cilium отбрасывает запрещённое молча. Одного кода
+# 000 мало — его же дают отвергнутое соединение и ошибка имени. Пустой вывод
+# значит, что не отработал сам exec, и о политике тоже ничего не говорит.
 expect_open() {
-    local what=$1 code
-    code="$(code_from "$2" "$3" "$4")"
+    local what=$1 result code
+    result="$(code_from "$2" "$3" "$4")"
+    code="${result%% *}"
     if [[ ${code} == 200 ]]; then
         pass "разрешено: ${what}"
     else
@@ -580,10 +585,14 @@ expect_open() {
     fi
 }
 expect_closed() {
-    local what=$1 code
-    code="$(code_from "$2" "$3" "$4")"
-    if [[ ${code} == 000 ]]; then
+    local what=$1 result code rc
+    result="$(code_from "$2" "$3" "$4")"
+    code="${result%% *}"
+    rc="${result##* }"
+    if [[ ${code} == 000 && ${rc} == 28 ]]; then
         pass "запрещено: ${what}"
+    elif [[ ${code} == 000 ]]; then
+        miss "должно быть запрещено: ${what} — код 000, но не по таймауту: curl завершился с ${rc:-неизвестным кодом}"
     else
         miss "должно быть запрещено: ${what} — код ${code:-не получен}"
     fi
