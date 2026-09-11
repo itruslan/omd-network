@@ -37,6 +37,10 @@ client_name="dn12-client"
 # на нём, и глава на это наблюдение опирается.
 cpk_image="registry.k8s.io/cloud-provider-kind/cloud-controller-manager:v0.11.1"
 app_image="registry.k8s.io/e2e-test-images/agnhost:2.53"
+# Без явного образа kind берёт образ по умолчанию своей версии, и с новым kind
+# стенд молча стал бы другим: версия Kubernetes, CoreDNS, а с ними и цепочки
+# KUBE-SVC и KUBE-SEP, которые разбирает глава. Режим kube-proxy — туда же.
+node_image="kindest/node:v1.37.0@sha256:a1ed56cfb0e7b93589bdf97c8cd566405a265939e3620fc4f5de89adff580ae5"
 
 faults=(selector port ready route dns)
 
@@ -118,10 +122,11 @@ run_check() {
 cluster_config() {
     local name=$1 family=$2 workers=$3
     printf 'kind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\nname: %s\n' "${name}"
-    printf 'networking:\n  ipFamily: %s\nnodes:\n  - role: control-plane\n' "${family}"
+    printf 'networking:\n  ipFamily: %s\n  kubeProxyMode: iptables\nnodes:\n' "${family}"
+    printf '  - role: control-plane\n    image: %s\n' "${node_image}"
     local i
     for (( i = 0; i < workers; i++ )); do
-        printf '  - role: worker\n'
+        printf '  - role: worker\n    image: %s\n' "${node_image}"
     done
 }
 
@@ -548,15 +553,21 @@ verify_lab() {
         printf '[ note ] Gateway публикует и адрес IPv6 %s — проверьте сами, слушает ли он его\n' "${g6}"
     fi
 
-    # Выход наружу: внешний сервер видит не адрес Pod, а адрес узла.
-    local seen probe_ip
+    # Выход наружу: внешний сервер видит не адрес Pod, а адрес узла. Засчитывается
+    # только успешный ответ, в котором стоит адрес узла Pod: «непустой и не адрес
+    # Pod» пропустил бы и текст ошибки.
+    local resp seen probe_ip node_ip
     probe_ip="$(kc -n default get pod probe -o jsonpath='{.status.podIP}')"
-    seen="$(kc -n default exec probe -- curl -s -m 5 "http://$(client_addr4):8080/clientip" 2>/dev/null || true)"
+    node_ip="$(kc -n default get pod probe -o jsonpath='{.status.hostIP}')"
+    resp="$(kc -n default exec probe -- curl -s -m 5 -w ' %{http_code}' \
+        "http://$(client_addr4):8080/clientip" 2>/dev/null || true)"
+    code="${resp##* }"
+    seen="${resp% *}"
     seen="${seen%:*}"
-    if [[ -n ${seen} && ${seen} != "${probe_ip}" ]]; then
+    if [[ ${code} == 200 && ${seen} == "${node_ip}" ]]; then
         pass "выход наружу: клиент видит probe как ${seen}, а не ${probe_ip}"
     else
-        miss "выход наружу: запрос probe к клиенту не прошёл или пришёл с адреса Pod"
+        miss "выход наружу: код ${code:-нет ответа}, клиент видит ${seen:-ничего} вместо адреса узла ${node_ip}"
     fi
 
     printf '\n'
