@@ -598,6 +598,12 @@ expect_closed() {
     fi
 }
 
+# Разрешение имени из Pod — по коду завершения nslookup. Одного запроса по имени
+# из web мало: набор, пустивший к DNS только web, прошёл бы проверку.
+resolves_from() {
+    kc -n dn13 exec "$1" -- nslookup -timeout=2 -retry=1 api.dn13.svc.cluster.local >/dev/null 2>&1
+}
+
 # Применение политики к endpoint по данным самого Cilium: «вход выход».
 enforcement() {
     local row
@@ -629,8 +635,16 @@ verify_lab() {
     expect_closed "toolbox из dn13-mon → api"               dn13-mon toolbox "http://${c4}/"
     expect_closed "batch → ${ext_name}, IPv4"               dn13 batch "http://${e4}:8080/"
 
-    local pod state
-    for pod in web batch $(kc -n dn13 get pods -l app=api -o jsonpath='{.items[*].metadata.name}'); do
+    local pod state pods
+    pods="web batch $(kc -n dn13 get pods -l app=api -o jsonpath='{.items[*].metadata.name}')"
+    for pod in ${pods}; do
+        if resolves_from "${pod}"; then
+            pass "DNS: имя api разрешается из ${pod}"
+        else
+            miss "DNS: имя api не разрешается из ${pod}"
+        fi
+    done
+    for pod in ${pods}; do
         state="$(enforcement dn13 "${pod}")"
         if [[ ${state} == "Enabled Enabled" ]]; then
             pass "Cilium применяет политики к ${pod} на вход и на выход"
@@ -641,7 +655,7 @@ verify_lab() {
 
     printf '\n'
     if [[ ${verify_missing} -eq 0 ]]; then
-        printf 'Связность соответствует замыслу.\n'
+        printf 'Проверенные потоки соответствуют замыслу.\n'
         return 0
     fi
     printf 'Не выполнено проверок: %d. Найдите, какое правило разошлось с замыслом.\n' "${verify_missing}"
