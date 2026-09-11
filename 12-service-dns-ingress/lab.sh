@@ -11,6 +11,7 @@
 #   bash 12-service-dns-ingress/lab.sh fix            # вернуть исправное состояние
 #   bash 12-service-dns-ingress/lab.sh verify         # проверки всех путей
 #   bash 12-service-dns-ingress/lab.sh single         # кластер только с IPv4 для сравнения
+#   bash 12-service-dns-ingress/lab.sh manifest       # манифесты приложения, Service и Gateway
 #   bash 12-service-dns-ingress/lab.sh down           # удалить всё
 #
 # Кластер поднимает kind, как в главе 11. Внешний балансировщик и Gateway
@@ -492,14 +493,17 @@ verify_lab() {
         printf '[ note ] стенд в сломанном состоянии; после разбора: %s fix\n\n' "$0"
     fi
 
+    # Имя должно разрешаться именно в адреса Service. Любой другой ответ, даже
+    # похожий на адрес, означает, что цепочка «имя → Service» порвана.
     local name="web.dn12.svc.cluster.local"
-    local a aaaa
+    local a aaaa c4 c6 code
+    c4="$(cip 0)"; c6="$(cip 1)"
     a="$(dig_addr "${name}" A)"
     aaaa="$(dig_addr "${name}" AAAA)"
-    if [[ -n ${a} && -n ${aaaa} ]]; then
+    if [[ -n ${a} && ${a} == "${c4}" && ${aaaa} == "${c6}" ]]; then
         pass "DNS: ${name} → ${a} и ${aaaa}"
     else
-        miss "DNS: ${name} не разрешается в оба семейства (A: ${a:-нет}, AAAA: ${aaaa:-нет})"
+        miss "DNS: ${name} → A ${a:-нет}, AAAA ${aaaa:-нет}; у Service ${c4:-нет} и ${c6:-нет}"
     fi
 
     local ready4 ready6
@@ -511,8 +515,6 @@ verify_lab() {
         miss "EndpointSlice: готовых конечных точек IPv4 ${ready4}, IPv6 ${ready6}"
     fi
 
-    local c4 c6 code
-    c4="$(cip 0)"; c6="$(cip 1)"
     code="$(code_from_pod "http://${c4}/hostname")"
     if [[ ${code} == 200 ]]; then
         pass "ClusterIP, IPv4: probe → ${c4}:80"
