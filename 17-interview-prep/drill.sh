@@ -147,7 +147,7 @@ RULES
     if mkdir -p "${netns_conf}/${check_ns}" 2>/dev/null; then
         ok "каталог ${netns_conf} доступен на запись"
     else
-        bad "нет доступа к ${netns_conf}: имя ${service_name} внутри стенда не разрешится"
+        bad "нет доступа к ${netns_conf}: стенд не подменит клиенту resolv.conf и hosts"
     fi
 
     ip -n "${check_ns}" link set lo up >/dev/null 2>&1 || true
@@ -289,6 +289,14 @@ lab_up() {
     # /etc/netns/<ns>/resolv.conf вместо системного.
     mkdir -p "${netns_conf}/${ns_client}"
     printf 'nameserver %s\n' "${ip_dns}" > "${netns_conf}/${ns_client}/resolv.conf"
+    # Свой hosts обязателен наравне с resolv.conf: ip netns exec подменяет любой
+    # файл из /etc/netns/<ns>, а системный /etc/hosts со строкой про
+    # shop.example.com разрешил бы имя вообще без резолвера — и неисправность
+    # резолвера не проявилась бы.
+    cat > "${netns_conf}/${ns_client}/hosts" <<'HOSTS'
+127.0.0.1	localhost
+::1	localhost ip6-localhost ip6-loopback
+HOSTS
 
     start_dns "${ip_server}"
     start_service
@@ -316,7 +324,7 @@ lab_down() {
         namespace_exists "${ns}" && ip netns delete "${ns}" >/dev/null 2>&1 || true
         rmdir "${netns_conf}/${ns}" 2>/dev/null || true
     done
-    rm -f "${netns_conf}/${ns_client}/resolv.conf"
+    rm -f "${netns_conf}/${ns_client}/resolv.conf" "${netns_conf}/${ns_client}/hosts"
     rmdir "${netns_conf}/${ns_client}" 2>/dev/null || true
     local iface
     for iface in dn17-c-host dn17-d-host dn17-rl-host dn17-rr-host dn17-s-host \
@@ -327,7 +335,7 @@ lab_down() {
     echo "Объекты стенда удалены, если они существовали."
     if [[ -s ${rounds_log} ]]; then
         printf 'Журнал раундов сохранён: %s\n' "${rounds_log}"
-        printf 'Он не удаляется вместе со стендом. Когда разбор закончен: rm -rf %s\n' "${log_dir}"
+        printf 'Он не удаляется вместе со стендом. Когда разбор закончен: sudo rm -rf %s\n' "${log_dir}"
     fi
 }
 
@@ -762,7 +770,19 @@ case "${1:-}" in
         finish_round "$2"
         ;;
     reveal)   require_root; finish_round "—" ;;
-    repair)   require_root; repair_all; echo "Неисправности сняты, раунд закрыт." ;;
+    repair)
+        require_root
+        # Раунд снимается только через diagnose или reveal: они пишут причину в
+        # журнал. Молчаливый repair убрал бы причину из серии, не оставив
+        # записи, и «шесть раундов — шесть разных причин» перестало бы
+        # выполняться.
+        if round_active; then
+            echo "Идёт раунд: закройте его — $0 diagnose \"...\" или $0 reveal" >&2
+            exit 2
+        fi
+        repair_all
+        echo "Неисправности сняты."
+        ;;
     score)    show_score ;;
     status)   show_status ;;
     down)     require_root; lab_down ;;
