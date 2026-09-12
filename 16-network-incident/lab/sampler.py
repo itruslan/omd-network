@@ -20,6 +20,7 @@ import os
 import pathlib
 import re
 import subprocess
+import sys
 import time
 import urllib.request
 
@@ -28,6 +29,21 @@ NODES = ["dn16-control-plane", "dn16-worker"]
 
 def sh(*cmd: str) -> str:
     return subprocess.run(cmd, capture_output=True, text=True, timeout=10).stdout
+
+
+def sh_checked(*cmd: str) -> str | None:
+    """Вывод команды или None, если она завершилась ошибкой.
+
+    Разница важна для ряда счётчика правила: отсутствие ряда в файле читается
+    как «правила не было», поэтому ошибку чтения нельзя молча превращать в
+    отсутствие данных. О ней сообщается в stderr.
+    """
+    done = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
+    if done.returncode != 0:
+        print(f"[sampler] не удалось прочитать: {' '.join(cmd[-4:])}: "
+              f"{done.stderr.strip().splitlines()[:1]}", file=sys.stderr, flush=True)
+        return None
+    return done.stdout
 
 
 def inspect(name: str, fmt: str) -> str:
@@ -54,8 +70,14 @@ def nstat(pid: str, names: list[str], label: str):
 
 
 def nft_counter(pid: str):
-    out = sh("nsenter", "-t", pid, "-n", "nft", "-j", "list", "table", "inet", "hardening")
-    if not out.strip():
+    # Сначала список таблиц: если таблицы нет, ряда не будет и это нормально.
+    # Если таблица есть, а прочитать её не удалось, об этом сообщается в
+    # stderr — иначе пропуск ряда выглядел бы как отсутствие правила.
+    tables = sh_checked("nsenter", "-t", pid, "-n", "nft", "list", "tables")
+    if tables is None or "table inet hardening" not in tables:
+        return
+    out = sh_checked("nsenter", "-t", pid, "-n", "nft", "-j", "list", "table", "inet", "hardening")
+    if not out or not out.strip():
         return
     for item in json.loads(out)["nftables"]:
         rule = item.get("rule")
