@@ -98,7 +98,23 @@ run_check() {
         cli="$(cilium version --client 2>/dev/null | awk '/^cilium-cli:/ {print $2}')"
         [[ ${cli} == "${cilium_cli_version}" ]] || note "cilium-cli ${cli:-неизвестной версии}: генератор проверен с ${cilium_cli_version}"
     fi
-    if dk info >/dev/null 2>&1; then ok "docker отвечает"; else bad "docker не отвечает"; fi
+    if dk info >/dev/null 2>&1; then
+        ok "docker отвечает"
+        # Стенду нужен локальный daemon: nsenter применяет PID контейнера к
+        # своему ядру, а bind mount отдаёт файлы этой машины. С удалённым
+        # endpoint проверки пройдут, а запись артефактов — нет.
+        local endpoint
+        endpoint="$(dk context inspect -f '{{.Endpoints.docker.Host}}' 2>/dev/null || true)"
+        if [[ -z ${endpoint} ]]; then
+            note "не удалось определить endpoint docker: стенду нужен локальный daemon"
+        elif [[ ${endpoint} == unix://* ]]; then
+            ok "docker локальный (${endpoint})"
+        else
+            bad "docker указывает на ${endpoint}: стенд работает только с локальным daemon"
+        fi
+    else
+        bad "docker не отвечает"
+    fi
     local mem_gb
     mem_gb="$(awk '/MemAvailable/ {printf "%d", $2 / 1024 / 1024}' /proc/meminfo)"
     if (( mem_gb >= 3 )); then ok "свободной памяти ${mem_gb} ГиБ"; else note "свободной памяти ${mem_gb} ГиБ: стенду нужно около 2,5"; fi
