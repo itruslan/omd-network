@@ -90,7 +90,7 @@ run_check() {
     for tool in docker kind kubectl cilium jq python3 curl sudo; do
         if command -v "${tool}" >/dev/null 2>&1; then ok "${tool} найден"; else bad "${tool} не найден"; fi
     done
-    for tool in nsenter tcpdump nft nstat; do
+    for tool in nsenter tcpdump nft nstat ip; do
         if sudo sh -c "command -v ${tool}" >/dev/null 2>&1; then ok "${tool} доступен через sudo"; else bad "${tool} не найден"; fi
     done
     if command -v cilium >/dev/null 2>&1; then
@@ -104,9 +104,18 @@ run_check() {
     if (( mem_gb >= 3 )); then ok "свободной памяти ${mem_gb} ГиБ"; else note "свободной памяти ${mem_gb} ГиБ: стенду нужно около 2,5"; fi
     # Сравниваются сети, а не начала строк: маршрут 192.0.0.0/16 включает
     # 192.0.2.0/24, и проверка по префиксу строки его не заметит.
-    local net
+    #
+    # Маршруты читаются один раз и отдельно: если чтение не удалось, проверку
+    # нельзя молча считать пройденной — иначе ошибка среды выглядит как
+    # свободный диапазон.
+    local routes net
+    if ! routes="$(ip -4 route show 2>/dev/null)" || [[ -z ${routes} ]]; then
+        bad "не удалось прочитать таблицу маршрутов: пересечение диапазонов не проверено"
+        routes=""
+    fi
     for net in 203.0.113.0/24 192.0.2.0/24 198.51.100.0/24; do
-        if ip -4 route show | awk '{print $1}' | python3 -c '
+        [[ -z ${routes} ]] && continue
+        if awk '{print $1}' <<< "${routes}" | python3 -c '
 import ipaddress, sys
 want = ipaddress.ip_network(sys.argv[1])
 for line in sys.stdin:
