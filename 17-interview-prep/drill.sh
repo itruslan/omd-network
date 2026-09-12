@@ -310,7 +310,7 @@ HOSTS
   сервер        ${ip_server}:8080
 
 Проверка исправного пути:
-  sudo ip netns exec ${ns_client} curl -q -sS -m 5 http://${service_name}:8080/
+  sudo ip netns exec ${ns_client} curl -q --noproxy '*' -sS -m 5 http://${service_name}:8080/
 
 Первый раунд: $0 new
 EOF
@@ -461,9 +461,10 @@ repair_all() {
 # Проверка, что путь исправен до начала раунда: иначе неисправность раунда
 # наложилась бы на чужую поломку, и разбор увёл бы не туда.
 #
-# -q обязателен: curl читает ~/.curlrc, и строка resolve в нём подменяет адрес
-# имени. Без -q проверка проходила бы и при подменённой записи DNS, а раунд с
-# неисправностью резолвера не проявлялся бы вовсе.
+# -q и --noproxy обязательны оба. Без -q curl читает ~/.curlrc, и строка resolve
+# в нём подменяет адрес имени. Без --noproxy действуют переменные http_proxy:
+# тогда клиент соединяется с прокси, а имя не разрешается вовсе. В обоих случаях
+# проверка проходила бы, а раунд с неисправностью резолвера не проявлялся.
 #
 # Проверок две, и вторая обязательна. Короткий GET проходит и через чёрную дыру
 # Path MTU, и через правило, отбрасывающее крупные пакеты, — то есть по одному
@@ -473,13 +474,13 @@ health_body="${state_dir}/health-body.txt"
 
 path_is_healthy() {
     local code answer
-    code=$(ip netns exec "${ns_client}" curl -q -sS -m 5 -o /dev/null \
+    code=$(ip netns exec "${ns_client}" curl -q --noproxy '*' -sS -m 5 -o /dev/null \
            -w '%{http_code}' "http://${service_name}:8080/" 2>/dev/null || true)
     [[ ${code} == "200" ]] || return 1
     if [[ ! -s ${health_body} ]]; then
         head -c 4000 /dev/zero | tr '\0' 'x' > "${health_body}"
     fi
-    answer=$(ip netns exec "${ns_client}" curl -q -sS -m 5 \
+    answer=$(ip netns exec "${ns_client}" curl -q --noproxy '*' -sS -m 5 \
              --data-binary "@${health_body}" \
              "http://${service_name}:8080/" 2>/dev/null || true)
     [[ ${answer} == "received=4000 bytes" ]]
@@ -561,7 +562,7 @@ new_round() {
 Раунд начат: в стенде одна неисправность.
 
 Начните с обращения клиента и записывайте наблюдения:
-  sudo ip netns exec ${ns_client} curl -q -sS -m 5 http://${service_name}:8080/
+  sudo ip netns exec ${ns_client} curl -q --noproxy '*' -sS -m 5 http://${service_name}:8080/
 
 Когда причина названа:
   sudo bash $0 diagnose "ваш диагноз одной строкой"
@@ -684,7 +685,7 @@ EOF
 
 Проверка размером:
   head -c 4000 /dev/zero | tr '\\0' 'x' > /tmp/body.txt
-  sudo ip netns exec ${ns_client} curl -q -sS -m 5 --data-binary @/tmp/body.txt \\
+  sudo ip netns exec ${ns_client} curl -q --noproxy '*' -sS -m 5 --data-binary @/tmp/body.txt \\
       http://${service_name}:8080/
 EOF
         ;;
