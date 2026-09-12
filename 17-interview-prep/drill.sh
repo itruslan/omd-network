@@ -452,6 +452,13 @@ repair_all() {
             ip -n "${ns}" link set "${iface}" mtu 1500 >/dev/null 2>&1 || true
         done
     done
+    # Поиск Path MTU силами TCP тоже возвращается в исходное состояние. При
+    # tcp_mtu_probing=2 концы сами уменьшают сегменты до tcp_base_mss, проходят
+    # через участок с меньшим MTU — и неисправность mtu не проявляется, хотя
+    # проверка пути при этом успешна.
+    for ns in "${ns_client}" "${ns_server}"; do
+        ip netns exec "${ns}" sysctl -qw net.ipv4.tcp_mtu_probing=0 >/dev/null 2>&1 || true
+    done
     if [[ $(cat "${state_dir}/dns.answer" 2>/dev/null) != "${ip_server}" ]]; then
         start_dns "${ip_server}"
     fi
