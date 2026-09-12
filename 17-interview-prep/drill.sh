@@ -104,7 +104,7 @@ run_check() {
     printf 'Проверка среды, нужной этой практике.\n\n'
 
     local tool
-    for tool in ip ss nft tcpdump ping curl dig dnsmasq python3; do
+    for tool in ip ss nft tcpdump ping curl dig dnsmasq python3 shuf base64 sysctl; do
         if command -v "${tool}" >/dev/null 2>&1; then
             ok "${tool} найден"
         else
@@ -302,7 +302,7 @@ lab_up() {
   сервер        ${ip_server}:8080
 
 Проверка исправного пути:
-  sudo ip netns exec ${ns_client} curl -sS -m 5 http://${service_name}:8080/
+  sudo ip netns exec ${ns_client} curl -q -sS -m 5 http://${service_name}:8080/
 
 Первый раунд: $0 new
 EOF
@@ -453,6 +453,10 @@ repair_all() {
 # Проверка, что путь исправен до начала раунда: иначе неисправность раунда
 # наложилась бы на чужую поломку, и разбор увёл бы не туда.
 #
+# -q обязателен: curl читает ~/.curlrc, и строка resolve в нём подменяет адрес
+# имени. Без -q проверка проходила бы и при подменённой записи DNS, а раунд с
+# неисправностью резолвера не проявлялся бы вовсе.
+#
 # Проверок две, и вторая обязательна. Короткий GET проходит и через чёрную дыру
 # Path MTU, и через правило, отбрасывающее крупные пакеты, — то есть по одному
 # коду 200 «исправно» утверждать нельзя. Тело в 4000 байт заведомо больше
@@ -461,13 +465,13 @@ health_body="${state_dir}/health-body.txt"
 
 path_is_healthy() {
     local code answer
-    code=$(ip netns exec "${ns_client}" curl -sS -m 5 -o /dev/null \
+    code=$(ip netns exec "${ns_client}" curl -q -sS -m 5 -o /dev/null \
            -w '%{http_code}' "http://${service_name}:8080/" 2>/dev/null || true)
     [[ ${code} == "200" ]] || return 1
     if [[ ! -s ${health_body} ]]; then
         head -c 4000 /dev/zero | tr '\0' 'x' > "${health_body}"
     fi
-    answer=$(ip netns exec "${ns_client}" curl -sS -m 5 \
+    answer=$(ip netns exec "${ns_client}" curl -q -sS -m 5 \
              --data-binary "@${health_body}" \
              "http://${service_name}:8080/" 2>/dev/null || true)
     [[ ${answer} == "received=4000 bytes" ]]
@@ -549,7 +553,7 @@ new_round() {
 Раунд начат: в стенде одна неисправность.
 
 Начните с обращения клиента и записывайте наблюдения:
-  sudo ip netns exec ${ns_client} curl -sS -m 5 http://${service_name}:8080/
+  sudo ip netns exec ${ns_client} curl -q -sS -m 5 http://${service_name}:8080/
 
 Когда причина названа:
   sudo bash $0 diagnose "ваш диагноз одной строкой"
@@ -585,6 +589,10 @@ finish_round() {
     fault=$(current_fault)
     seconds=$(elapsed_seconds)
     log_round "${fault}" "${seconds}" "${answer}"
+    # Состояние раунда снимается до печати разбора, а не после. Иначе вывод,
+    # пущенный в head или less, обрывает скрипт сигналом, раунд остаётся
+    # открытым, и следующий new отказывается начинать.
+    rm -f "${state_dir}/current" "${state_dir}/started"
     printf 'Время раунда: %d мин %02d с\n\n' $((seconds / 60)) $((seconds % 60))
     if [[ ${answer} != "—" ]]; then
         printf 'Ваш диагноз: %s\n\n' "${answer}"
@@ -593,7 +601,6 @@ finish_round() {
     printf '\nСравните свой диагноз с причиной честно: совпадение формулировок\n'
     printf 'значения не имеет, важно, названы ли участок и механизм.\n'
     printf '\nСнять неисправность и начать следующий раунд: %s new\n' "$0"
-    rm -f "${state_dir}/current" "${state_dir}/started"
 }
 
 explain_fault() {
@@ -669,7 +676,7 @@ EOF
 
 Проверка размером:
   head -c 4000 /dev/zero | tr '\\0' 'x' > /tmp/body.txt
-  sudo ip netns exec ${ns_client} curl -sS -m 5 --data-binary @/tmp/body.txt \\
+  sudo ip netns exec ${ns_client} curl -q -sS -m 5 --data-binary @/tmp/body.txt \\
       http://${service_name}:8080/
 EOF
         ;;
