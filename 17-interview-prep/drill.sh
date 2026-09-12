@@ -52,6 +52,10 @@ ip_server="203.0.113.20"
 service_name="shop.example.com"
 
 check_ns="dn17-check-ns"
+# Имя интерфейса в Linux — не длиннее 15 символов, отсюда сокращения.
+check_veth="dn17-chk-a"
+check_veth_peer="dn17-chk-b"
+check_br="dn17-chk-br"
 
 faults="mask arp noroute filter mtu dns"
 
@@ -84,6 +88,8 @@ check_log=""
 check_cleanup() {
     namespace_exists "${check_ns}" && ip netns delete "${check_ns}" >/dev/null 2>&1 || true
     rmdir "${netns_conf}/${check_ns}" 2>/dev/null || true
+    link_exists "${check_veth}" && ip link delete "${check_veth}" >/dev/null 2>&1 || true
+    link_exists "${check_br}" && ip link delete "${check_br}" >/dev/null 2>&1 || true
     [[ -n ${check_log} ]] && rm -f "${check_log}"
     return 0
 }
@@ -145,13 +151,30 @@ run_check() {
     fi
     kill "${probe}" >/dev/null 2>&1 || true
 
-    # Диапазоны документации не должны пересекаться с настоящими маршрутами
-    # машины: иначе стенд перехватит рабочий трафик, а разбор пойдёт по чужим
-    # пакетам. Проверяются те же адреса, которые стенд занимает.
+    # Namespace и nft могут работать, а создание veth или bridge — оказаться
+    # запрещённым сборкой ядра или политикой безопасности. Без этих двух
+    # проверок check проходил бы полностью, а up падал на первом интерфейсе.
+    if ip link add "${check_veth}" type veth peer name "${check_veth_peer}" >/dev/null 2>&1; then
+        ok "veth-пара создаётся"
+        ip link delete "${check_veth}" >/dev/null 2>&1 || true
+    else
+        bad "veth-пару создать не удалось: стенд не поднимется"
+    fi
+    if ip link add "${check_br}" type bridge >/dev/null 2>&1; then
+        ok "bridge создаётся"
+        ip link delete "${check_br}" >/dev/null 2>&1 || true
+    else
+        bad "bridge создать не удалось: стенд не поднимется"
+    fi
+
+    # Учебные диапазоны сверяются с маршрутами машины. Стенд живёт в отдельных
+    # namespace и маршрутов хозяйской машины не меняет, поэтому речь не о
+    # перехвате: совпадение мешает разбору — свои наблюдения станет трудно
+    # отличить от настоящего трафика по тем же адресам.
     local net
     for net in 198.51.100.0/24 203.0.113.0/24; do
         if route_conflict "${net}"; then
-            bad "диапазон ${net} уже используется в маршрутах машины"
+            bad "диапазон ${net} уже есть в маршрутах машины: наблюдения смешаются"
         else
             ok "диапазон ${net} свободен"
         fi
@@ -401,13 +424,27 @@ repair_all() {
     rm -f "${state_dir}/current" "${state_dir}/started"
 }
 
-# Проверка, что путь исправен: обращение по имени должно вернуть 200. Иначе
-# неисправность раунда наложилась бы на чужую поломку, и разбор увёл бы не туда.
+# Проверка, что путь исправен до начала раунда: иначе неисправность раунда
+# наложилась бы на чужую поломку, и разбор увёл бы не туда.
+#
+# Проверок две, и вторая обязательна. Короткий GET проходит и через чёрную дыру
+# Path MTU, и через правило, отбрасывающее крупные пакеты, — то есть по одному
+# коду 200 «исправно» утверждать нельзя. Тело в 4000 байт заведомо больше
+# любого сегмента на этом пути, и служба отвечает его точным размером.
+health_body="${state_dir}/health-body.txt"
+
 path_is_healthy() {
-    local code
+    local code answer
     code=$(ip netns exec "${ns_client}" curl -sS -m 5 -o /dev/null \
            -w '%{http_code}' "http://${service_name}:8080/" 2>/dev/null || true)
-    [[ ${code} == "200" ]]
+    [[ ${code} == "200" ]] || return 1
+    if [[ ! -s ${health_body} ]]; then
+        head -c 4000 /dev/zero | tr '\0' 'x' > "${health_body}"
+    fi
+    answer=$(ip netns exec "${ns_client}" curl -sS -m 5 \
+             --data-binary "@${health_body}" \
+             "http://${service_name}:8080/" 2>/dev/null || true)
+    [[ ${answer} == "received=4000 bytes" ]]
 }
 
 # --- раунды -----------------------------------------------------------------
@@ -418,8 +455,12 @@ current_fault() { base64 -d < "${state_dir}/current"; }
 
 # Мешок неисправностей: пока в нём что-то есть, повторов не будет. Опустевший
 # мешок наполняется заново — все шесть неисправностей встречаются по разу.
-draw_fault() {
-    local bag=() name
+#
+# Неисправность, выбранная напарником через DN17_FAULT, уходит из мешка так же,
+# как выбранная скриптом. Иначе показательный раунд не считался бы, и та же
+# неисправность могла выпасть следующей — серия из шести обещает шесть разных.
+pick_fault() {
+    local forced="${1:-}" bag=() rest=() name item last
     if [[ -s ${state_dir}/bag ]]; then
         mapfile -t bag < "${state_dir}/bag"
     fi
@@ -428,15 +469,21 @@ draw_fault() {
         # Наполненный заново мешок не должен начинаться с только что
         # разобранной неисправности: подряд одно и то же — не разбор, а
         # узнавание.
-        local last
         last=$(cat "${state_dir}/last" 2>/dev/null || true)
         if [[ ${#bag[@]} -gt 1 && ${bag[0]} == "${last}" ]]; then
             bag=("${bag[@]:1}" "${bag[0]}")
         fi
     fi
-    name="${bag[0]}"
+    name="${forced:-${bag[0]}}"
+    for item in "${bag[@]}"; do
+        [[ ${item} == "${name}" ]] || rest+=("${item}")
+    done
+    if [[ ${#rest[@]} -gt 0 ]]; then
+        printf '%s\n' "${rest[@]}" > "${state_dir}/bag"
+    else
+        : > "${state_dir}/bag"
+    fi
     printf '%s' "${name}" > "${state_dir}/last"
-    printf '%s\n' "${bag[@]:1}" | grep -v '^$' > "${state_dir}/bag" || : > "${state_dir}/bag"
     printf '%s' "${name}"
 }
 
@@ -452,13 +499,13 @@ new_round() {
         echo "Разберитесь с состоянием стенда ($0 status) или пересоберите его: $0 down && $0 up" >&2
         exit 1
     fi
-    local name
-    name="${DN17_FAULT:-$(draw_fault)}"
-    if [[ " ${faults} " != *" ${name} "* ]]; then
-        echo "Неизвестная неисправность в DN17_FAULT: ${name}" >&2
+    if [[ -n ${DN17_FAULT:-} && " ${faults} " != *" ${DN17_FAULT} "* ]]; then
+        echo "Неизвестная неисправность в DN17_FAULT: ${DN17_FAULT}" >&2
         echo "Допустимые имена: ${faults}" >&2
         exit 2
     fi
+    local name
+    name=$(pick_fault "${DN17_FAULT:-}")
     apply_fault "${name}"
     printf '%s' "${name}" | base64 > "${state_dir}/current"
     date +%s > "${state_dir}/started"
