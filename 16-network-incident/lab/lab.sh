@@ -103,36 +103,41 @@ run_check() {
     mem_gb="$(awk '/MemAvailable/ {printf "%d", $2 / 1024 / 1024}' /proc/meminfo)"
     if (( mem_gb >= 3 )); then ok "свободной памяти ${mem_gb} ГиБ"; else note "свободной памяти ${mem_gb} ГиБ: стенду нужно около 2,5"; fi
     # Сравниваются сети, а не начала строк: маршрут 192.0.0.0/16 включает
-    # 192.0.2.0/24, и проверка по префиксу строки его не заметит.
+    # 192.0.2.0/24, и проверка по префиксу строки его не заметит. Разбирается
+    # структурированный вывод: в обычном выводе первым полем бывает тип
+    # маршрута («blackhole 192.0.2.0/24»), и назначение из него не прочитать.
     #
-    # Маршруты читаются один раз и отдельно: если чтение не удалось, проверку
-    # нельзя молча считать пройденной — иначе ошибка среды выглядит как
-    # свободный диапазон.
+    # Если маршруты прочитать не удалось, проверку нельзя молча считать
+    # пройденной: иначе ошибка среды выглядит как свободный диапазон.
     local routes net
-    if ! routes="$(ip -4 route show 2>/dev/null)" || [[ -z ${routes} ]]; then
+    if ! routes="$(ip -j -4 route show 2>/dev/null)" || [[ -z ${routes} ]]; then
         bad "не удалось прочитать таблицу маршрутов: пересечение диапазонов не проверено"
         routes=""
     fi
     for net in 203.0.113.0/24 192.0.2.0/24 198.51.100.0/24; do
         [[ -z ${routes} ]] && continue
-        if awk '{print $1}' <<< "${routes}" | python3 -c '
-import ipaddress, sys
+        if python3 -c '
+import ipaddress, json, sys
 want = ipaddress.ip_network(sys.argv[1])
-for line in sys.stdin:
-    line = line.strip()
-    try:
-        have = ipaddress.ip_network(line if "/" in line else line + "/32")
-    except ValueError:
+for route in json.load(sys.stdin):
+    dst = route.get("dst")
+    if not dst or dst == "default":
         continue
+    try:
+        have = ipaddress.ip_network(dst if "/" in dst else dst + "/32")
+    except ValueError:
+        # Назначение, которое не разбирается, безопаснее считать пересечением.
+        sys.exit(0)
     if have.overlaps(want):
         sys.exit(0)
 sys.exit(1)
-' "${net}"; then
+' "${net}" <<< "${routes}"; then
             bad "диапазон ${net} пересекается с маршрутом хоста"
         else
             ok "диапазон ${net} свободен"
         fi
     done
+
     cluster_exists && note "кластер ${cluster} уже существует: up создавать его не станет"
     printf '\n'
     if [[ ${check_failures} -eq 0 ]]; then
