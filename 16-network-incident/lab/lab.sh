@@ -102,9 +102,27 @@ run_check() {
     local mem_gb
     mem_gb="$(awk '/MemAvailable/ {printf "%d", $2 / 1024 / 1024}' /proc/meminfo)"
     if (( mem_gb >= 3 )); then ok "свободной памяти ${mem_gb} ГиБ"; else note "свободной памяти ${mem_gb} ГиБ: стенду нужно около 2,5"; fi
+    # Сравниваются сети, а не начала строк: маршрут 192.0.0.0/16 включает
+    # 192.0.2.0/24, и проверка по префиксу строки его не заметит.
     local net
     for net in 203.0.113.0/24 192.0.2.0/24 198.51.100.0/24; do
-        if ip route show | grep -q "^${net%/*}"; then bad "диапазон ${net} уже занят на хосте"; else ok "диапазон ${net} свободен"; fi
+        if ip -4 route show | awk '{print $1}' | python3 -c '
+import ipaddress, sys
+want = ipaddress.ip_network(sys.argv[1])
+for line in sys.stdin:
+    line = line.strip()
+    try:
+        have = ipaddress.ip_network(line if "/" in line else line + "/32")
+    except ValueError:
+        continue
+    if have.overlaps(want):
+        sys.exit(0)
+sys.exit(1)
+' "${net}"; then
+            bad "диапазон ${net} пересекается с маршрутом хоста"
+        else
+            ok "диапазон ${net} свободен"
+        fi
     done
     cluster_exists && note "кластер ${cluster} уже существует: up создавать его не станет"
     printf '\n'

@@ -68,9 +68,14 @@ def log(**fields) -> None:
 
 
 class PartnerError(Exception):
-    def __init__(self, status: int, message: str):
+    """Ошибка обращения к партнёру. Фаза названа явно: по тексту сообщения её
+    определять нельзя — «connect» встречается и в ошибках после установления
+    соединения, и повтор тогда отправит заказ дважды."""
+
+    def __init__(self, status: int, message: str, phase: str):
         super().__init__(message)
         self.status = status
+        self.phase = phase
 
 
 def call_partner(body: bytes, request_id: str) -> dict:
@@ -79,9 +84,9 @@ def call_partner(body: bytes, request_id: str) -> dict:
     try:
         sock = socket.create_connection((PARTNER_HOST, int(PARTNER_PORT)), timeout=CONNECT_TIMEOUT)
     except TimeoutError:
-        raise PartnerError(502, "partner connect timeout")
+        raise PartnerError(502, "partner connect timeout", "connect")
     except OSError as exc:
-        raise PartnerError(502, f"partner connect error: {exc.strerror or exc}")
+        raise PartnerError(502, f"partner connect error: {exc.strerror or exc}", "connect")
     sock.settimeout(READ_TIMEOUT)
     conn = http.client.HTTPConnection(PARTNER_HOST, int(PARTNER_PORT))
     conn.sock = sock
@@ -93,13 +98,13 @@ def call_partner(body: bytes, request_id: str) -> dict:
         resp = conn.getresponse()
         payload = resp.read()
     except TimeoutError:
-        raise PartnerError(504, "partner read timeout")
+        raise PartnerError(504, "partner read timeout", "response")
     except OSError as exc:
-        raise PartnerError(502, f"partner connection error: {exc.strerror or exc}")
+        raise PartnerError(502, f"partner connection error: {exc.strerror or exc}", "response")
     finally:
         conn.close()
     if resp.status >= 300:
-        raise PartnerError(502, f"partner status {resp.status}")
+        raise PartnerError(502, f"partner status {resp.status}", "response")
     return json.loads(payload)
 
 
@@ -160,7 +165,9 @@ class Handler(http.server.BaseHTTPRequestHandler):
                 break
             except PartnerError as exc:
                 status, error = exc.status, str(exc)
-                if "connect" not in error:
+                # Повторяем только неустановленное соединение: заказ,
+                # который партнёр мог уже принять, отправлять второй раз нельзя.
+                if exc.phase != "connect":
                     break
         if error:
             self.reply(status, {"error": error, "request_id": rid})
