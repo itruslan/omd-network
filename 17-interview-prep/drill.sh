@@ -120,10 +120,26 @@ run_check() {
         return 1
     fi
 
-    if ip netns exec "${check_ns}" nft list ruleset >/dev/null 2>&1; then
-        ok "nft работает внутри namespace"
+    # Чтение ruleset ещё не значит, что стенд сможет внести неисправность:
+    # ядро может не поддерживать нужное семейство, hook или выражение. Поэтому
+    # проверка создаёт правило того же вида, что и сами неисправности.
+    if ip netns exec "${check_ns}" nft -f - >/dev/null 2>&1 <<'RULES'
+table inet dn17check {
+    chain forward {
+        type filter hook forward priority 0; policy accept;
+        ip saddr 203.0.113.20 tcp sport 8080 counter drop
+    }
+    chain output {
+        type filter hook output priority 0; policy accept;
+        icmp type destination-unreachable counter drop
+    }
+}
+RULES
+    then
+        ok "nft принимает правила стенда внутри namespace"
+        ip netns exec "${check_ns}" nft delete table inet dn17check >/dev/null 2>&1 || true
     else
-        bad "nft внутри namespace недоступен: часть неисправностей не воспроизведётся"
+        bad "nft внутри namespace не принял правила стенда: часть неисправностей не воспроизведётся"
     fi
 
     # Стенд подменяет resolv.conf через /etc/netns: без записи в этот каталог
@@ -417,7 +433,17 @@ repair_all() {
     ip -n "${ns_client}" route replace default via "${ip_router_l}" >/dev/null 2>&1 || true
     ip -n "${ns_server}" route replace default via "${ip_router_r}" >/dev/null 2>&1 || true
     ip netns exec "${ns_router}" nft delete table inet dn17 >/dev/null 2>&1 || true
-    ip -n "${ns_router}" link set eth1 mtu 1500 >/dev/null 2>&1 || true
+    # MTU возвращается всем интерфейсам стенда, а не только тому, который
+    # меняет неисправность. Контрпример: MTU 1400 на клиенте оставляет путь
+    # рабочим, но обезвреживает неисправность mtu — она перестаёт проявляться,
+    # потому что клиент и так не отправляет крупных пакетов.
+    local ns iface
+    for ns in "${ns_client}" "${ns_dns}" "${ns_router}" "${ns_server}"; do
+        for iface in eth0 eth1; do
+            ip -n "${ns}" link show "${iface}" >/dev/null 2>&1 || continue
+            ip -n "${ns}" link set "${iface}" mtu 1500 >/dev/null 2>&1 || true
+        done
+    done
     if [[ $(cat "${state_dir}/dns.answer" 2>/dev/null) != "${ip_server}" ]]; then
         start_dns "${ip_server}"
     fi
@@ -453,10 +479,10 @@ round_active() { [[ -f ${state_dir}/current ]]; }
 
 current_fault() { base64 -d < "${state_dir}/current"; }
 
-# Мешок неисправностей: пока в нём что-то есть, повторов не будет. Опустевший
-# мешок наполняется заново — все шесть неисправностей встречаются по разу.
+# Выбор без возврата: пока в наборе что-то есть, повторов не будет. Опустевший
+# набор наполняется заново — все шесть неисправностей встречаются по разу.
 #
-# Неисправность, выбранная напарником через DN17_FAULT, уходит из мешка так же,
+# Неисправность, выбранная напарником через DN17_FAULT, уходит из набора так же,
 # как выбранная скриптом. Иначе показательный раунд не считался бы, и та же
 # неисправность могла выпасть следующей — серия из шести обещает шесть разных.
 pick_fault() {
@@ -466,7 +492,7 @@ pick_fault() {
     fi
     if [[ ${#bag[@]} -eq 0 ]]; then
         mapfile -t bag < <(printf '%s\n' ${faults} | shuf)
-        # Наполненный заново мешок не должен начинаться с только что
+        # Наполненный заново набор не должен начинаться с только что
         # разобранной неисправности: подряд одно и то же — не разбор, а
         # узнавание.
         last=$(cat "${state_dir}/last" 2>/dev/null || true)
@@ -475,6 +501,14 @@ pick_fault() {
         fi
     fi
     name="${forced:-${bag[0]}}"
+    # Имя, которого в наборе уже нет, означает повтор внутри той же серии.
+    # Отказ здесь надёжнее оговорки в тексте: обещание «шесть раундов — шесть
+    # разных причин» держит скрипт, а не память ведущего.
+    if [[ -n ${forced} ]] && ! printf '%s\n' "${bag[@]}" | grep -qx "${forced}"; then
+        echo "Неисправность ${forced} в этой серии уже разобрана." >&2
+        echo "Набор хранит остаток серии. Чтобы начать новую: $0 down && $0 up" >&2
+        return 3
+    fi
     for item in "${bag[@]}"; do
         [[ ${item} == "${name}" ]] || rest+=("${item}")
     done
@@ -505,7 +539,9 @@ new_round() {
         exit 2
     fi
     local name
-    name=$(pick_fault "${DN17_FAULT:-}")
+    if ! name=$(pick_fault "${DN17_FAULT:-}"); then
+        exit 3
+    fi
     apply_fault "${name}"
     printf '%s' "${name}" | base64 > "${state_dir}/current"
     date +%s > "${state_dir}/started"
