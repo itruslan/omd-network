@@ -1,0 +1,75 @@
+# Снято дежурным: 2026-09-12T04:02:40Z
+# Точка: kubectl с правами на namespace shop
+
+$ kubectl -n shop get pods -o wide --show-labels
+NAME                               READY   STATUS    RESTARTS   AGE   IP             NODE                 NOMINATED NODE   READINESS GATES   LABELS
+checkout-55c977f84d-7rfwh          1/1     Running   0          15m   10.244.1.48    dn16-worker          <none>           <none>            app=checkout,pod-template-hash=55c977f84d,version=v1
+checkout-55c977f84d-f7jkj          1/1     Running   0          15m   10.244.0.129   dn16-control-plane   <none>           <none>            app=checkout,pod-template-hash=55c977f84d,version=v1
+checkout-v2-564ddf567d-wmzzj       1/1     Running   0          5m    10.244.1.63    dn16-worker          <none>           <none>            app=checkout,pod-template-hash=564ddf567d,version=v2
+recommendations-69778d6cb8-ld54m   1/1     Running   0          15m   10.244.1.220   dn16-worker          <none>           <none>            app=recommendations,pod-template-hash=69778d6cb8,version=v1
+storefront-56f75ccdd8-7r9hd        1/1     Running   0          15m   10.244.0.205   dn16-control-plane   <none>           <none>            app=storefront,pod-template-hash=56f75ccdd8,version=v1
+storefront-56f75ccdd8-z5wz6        1/1     Running   0          15m   10.244.1.4     dn16-worker          <none>           <none>            app=storefront,pod-template-hash=56f75ccdd8,version=v1
+
+$ kubectl -n shop get endpointslices
+NAME               ADDRESSTYPE   PORTS   ENDPOINTS                              AGE
+checkout-9bb22     IPv4          8080    10.244.1.48,10.244.0.129,10.244.1.63   15m
+storefront-kvxm5   IPv4          8080    10.244.1.4,10.244.0.205                15m
+
+$ kubectl -n shop get networkpolicy -o yaml
+apiVersion: v1
+items:
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+    name: allow-dns
+    namespace: shop
+  spec:
+    egress:
+    - ports:
+      - port: 53
+        protocol: UDP
+      - port: 53
+        protocol: TCP
+      to:
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+        podSelector:
+          matchLabels:
+            k8s-app: kube-dns
+    podSelector: {}
+    policyTypes:
+    - Egress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+    name: checkout-to-partner
+    namespace: shop
+  spec:
+    egress:
+    - ports:
+      - port: 8080
+        protocol: TCP
+      to:
+      - ipBlock:
+          cidr: 198.51.100.0/24
+    podSelector:
+      matchLabels:
+        app: checkout
+        version: v1
+    policyTypes:
+    - Egress
+- apiVersion: networking.k8s.io/v1
+  kind: NetworkPolicy
+  metadata:
+    annotations:
+    name: default-deny-egress
+    namespace: shop
+  spec:
+    podSelector: {}
+    policyTypes:
+    - Egress
+kind: List
+metadata:

@@ -1,0 +1,982 @@
+2026-09-12T03:47:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:47:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 3
+2026-09-12T03:47:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 17
+2026-09-12T03:47:40Z conntrack_entries{node="dn16-control-plane"} 460
+2026-09-12T03:47:40Z conntrack_entries{node="dn16-worker"} 125
+2026-09-12T03:47:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:47:40Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:47:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:47:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:47:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:47:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 37
+2026-09-12T03:47:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 3
+2026-09-12T03:47:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 20
+2026-09-12T03:47:55Z conntrack_entries{node="dn16-control-plane"} 532
+2026-09-12T03:47:55Z conntrack_entries{node="dn16-worker"} 155
+2026-09-12T03:47:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:47:55Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:47:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:47:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:47:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:48:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 39
+2026-09-12T03:48:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 6
+2026-09-12T03:48:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 23
+2026-09-12T03:48:10Z conntrack_entries{node="dn16-control-plane"} 601
+2026-09-12T03:48:10Z conntrack_entries{node="dn16-worker"} 174
+2026-09-12T03:48:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:48:10Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:48:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:48:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:48:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:48:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 42
+2026-09-12T03:48:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 9
+2026-09-12T03:48:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 23
+2026-09-12T03:48:25Z conntrack_entries{node="dn16-control-plane"} 493
+2026-09-12T03:48:25Z conntrack_entries{node="dn16-worker"} 142
+2026-09-12T03:48:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:48:25Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:48:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:48:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:48:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:48:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 44
+2026-09-12T03:48:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 9
+2026-09-12T03:48:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 26
+2026-09-12T03:48:40Z conntrack_entries{node="dn16-control-plane"} 564
+2026-09-12T03:48:40Z conntrack_entries{node="dn16-worker"} 162
+2026-09-12T03:48:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:48:40Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:48:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:48:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:48:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:48:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 44
+2026-09-12T03:48:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 12
+2026-09-12T03:48:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 26
+2026-09-12T03:48:55Z conntrack_entries{node="dn16-control-plane"} 634
+2026-09-12T03:48:55Z conntrack_entries{node="dn16-worker"} 189
+2026-09-12T03:48:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:48:55Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:48:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:48:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:48:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:49:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 44
+2026-09-12T03:49:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 14
+2026-09-12T03:49:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 26
+2026-09-12T03:49:10Z conntrack_entries{node="dn16-control-plane"} 704
+2026-09-12T03:49:10Z conntrack_entries{node="dn16-worker"} 206
+2026-09-12T03:49:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:49:10Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:49:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:49:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:49:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:49:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 45
+2026-09-12T03:49:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 15
+2026-09-12T03:49:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 26
+2026-09-12T03:49:25Z conntrack_entries{node="dn16-control-plane"} 490
+2026-09-12T03:49:25Z conntrack_entries{node="dn16-worker"} 210
+2026-09-12T03:49:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:49:25Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:49:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:49:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:49:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:49:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 48
+2026-09-12T03:49:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 18
+2026-09-12T03:49:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 28
+2026-09-12T03:49:40Z conntrack_entries{node="dn16-control-plane"} 560
+2026-09-12T03:49:40Z conntrack_entries{node="dn16-worker"} 228
+2026-09-12T03:49:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:49:40Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:49:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:49:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:49:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:49:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T03:49:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 19
+2026-09-12T03:49:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 29
+2026-09-12T03:49:55Z conntrack_entries{node="dn16-control-plane"} 630
+2026-09-12T03:49:55Z conntrack_entries{node="dn16-worker"} 254
+2026-09-12T03:49:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:49:55Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:49:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:49:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:49:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:50:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T03:50:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 21
+2026-09-12T03:50:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 29
+2026-09-12T03:50:10Z conntrack_entries{node="dn16-control-plane"} 697
+2026-09-12T03:50:10Z conntrack_entries{node="dn16-worker"} 272
+2026-09-12T03:50:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:50:10Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:50:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:50:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:50:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:50:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T03:50:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 24
+2026-09-12T03:50:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 29
+2026-09-12T03:50:25Z conntrack_entries{node="dn16-control-plane"} 472
+2026-09-12T03:50:25Z conntrack_entries{node="dn16-worker"} 200
+2026-09-12T03:50:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:50:25Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:50:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:50:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:50:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:50:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T03:50:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 24
+2026-09-12T03:50:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 29
+2026-09-12T03:50:40Z conntrack_entries{node="dn16-control-plane"} 544
+2026-09-12T03:50:40Z conntrack_entries{node="dn16-worker"} 223
+2026-09-12T03:50:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:50:40Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:50:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:50:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:50:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:50:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T03:50:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 27
+2026-09-12T03:50:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 29
+2026-09-12T03:50:55Z conntrack_entries{node="dn16-control-plane"} 615
+2026-09-12T03:50:55Z conntrack_entries{node="dn16-worker"} 242
+2026-09-12T03:50:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:50:55Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:50:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:50:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:50:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:51:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T03:51:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 30
+2026-09-12T03:51:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 29
+2026-09-12T03:51:10Z conntrack_entries{node="dn16-control-plane"} 689
+2026-09-12T03:51:10Z conntrack_entries{node="dn16-worker"} 259
+2026-09-12T03:51:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:51:10Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:51:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:51:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:51:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:51:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T03:51:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 30
+2026-09-12T03:51:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 29
+2026-09-12T03:51:25Z conntrack_entries{node="dn16-control-plane"} 468
+2026-09-12T03:51:25Z conntrack_entries{node="dn16-worker"} 196
+2026-09-12T03:51:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:51:25Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:51:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:51:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:51:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:51:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T03:51:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 33
+2026-09-12T03:51:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 29
+2026-09-12T03:51:40Z conntrack_entries{node="dn16-control-plane"} 537
+2026-09-12T03:51:40Z conntrack_entries{node="dn16-worker"} 218
+2026-09-12T03:51:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:51:40Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:51:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:51:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:51:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:51:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 52
+2026-09-12T03:51:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 36
+2026-09-12T03:51:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 31
+2026-09-12T03:51:55Z conntrack_entries{node="dn16-control-plane"} 607
+2026-09-12T03:51:55Z conntrack_entries{node="dn16-worker"} 244
+2026-09-12T03:51:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:51:55Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:51:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:51:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:51:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:52:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 53
+2026-09-12T03:52:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 36
+2026-09-12T03:52:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 31
+2026-09-12T03:52:10Z conntrack_entries{node="dn16-control-plane"} 679
+2026-09-12T03:52:10Z conntrack_entries{node="dn16-worker"} 266
+2026-09-12T03:52:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:52:10Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:52:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:52:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:52:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:52:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:52:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 39
+2026-09-12T03:52:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:52:25Z conntrack_entries{node="dn16-control-plane"} 461
+2026-09-12T03:52:25Z conntrack_entries{node="dn16-worker"} 204
+2026-09-12T03:52:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:52:25Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:52:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:52:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:52:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:52:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:52:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 42
+2026-09-12T03:52:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:52:40Z conntrack_entries{node="dn16-control-plane"} 529
+2026-09-12T03:52:40Z conntrack_entries{node="dn16-worker"} 224
+2026-09-12T03:52:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 0
+2026-09-12T03:52:40Z netstat_IpFragFails{host="vpngw"} 0
+2026-09-12T03:52:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 0
+2026-09-12T03:52:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 0
+2026-09-12T03:52:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:52:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:52:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 42
+2026-09-12T03:52:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:52:55Z conntrack_entries{node="dn16-control-plane"} 602
+2026-09-12T03:52:55Z conntrack_entries{node="dn16-worker"} 250
+2026-09-12T03:52:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 25
+2026-09-12T03:52:55Z netstat_IpFragFails{host="vpngw"} 25
+2026-09-12T03:52:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 14
+2026-09-12T03:52:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 21
+2026-09-12T03:52:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 25
+2026-09-12T03:52:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:53:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:53:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 45
+2026-09-12T03:53:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:53:10Z conntrack_entries{node="dn16-control-plane"} 673
+2026-09-12T03:53:10Z conntrack_entries{node="dn16-worker"} 272
+2026-09-12T03:53:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 40
+2026-09-12T03:53:10Z netstat_IpFragFails{host="vpngw"} 40
+2026-09-12T03:53:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 21
+2026-09-12T03:53:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 35
+2026-09-12T03:53:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 40
+2026-09-12T03:53:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:53:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:53:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 48
+2026-09-12T03:53:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:53:25Z conntrack_entries{node="dn16-control-plane"} 443
+2026-09-12T03:53:25Z conntrack_entries{node="dn16-worker"} 203
+2026-09-12T03:53:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 62
+2026-09-12T03:53:25Z netstat_IpFragFails{host="vpngw"} 62
+2026-09-12T03:53:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 28
+2026-09-12T03:53:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 56
+2026-09-12T03:53:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 62
+2026-09-12T03:53:25Z nginx_connections_active{host="edge"} 2
+2026-09-12T03:53:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:53:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 48
+2026-09-12T03:53:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:53:40Z conntrack_entries{node="dn16-control-plane"} 518
+2026-09-12T03:53:40Z conntrack_entries{node="dn16-worker"} 220
+2026-09-12T03:53:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 83
+2026-09-12T03:53:40Z netstat_IpFragFails{host="vpngw"} 83
+2026-09-12T03:53:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 35
+2026-09-12T03:53:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 80
+2026-09-12T03:53:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 83
+2026-09-12T03:53:40Z nginx_connections_active{host="edge"} 2
+2026-09-12T03:53:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:53:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 51
+2026-09-12T03:53:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:53:55Z conntrack_entries{node="dn16-control-plane"} 594
+2026-09-12T03:53:55Z conntrack_entries{node="dn16-worker"} 246
+2026-09-12T03:53:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 105
+2026-09-12T03:53:55Z netstat_IpFragFails{host="vpngw"} 105
+2026-09-12T03:53:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 42
+2026-09-12T03:53:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 105
+2026-09-12T03:53:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 105
+2026-09-12T03:53:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:54:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:54:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 54
+2026-09-12T03:54:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:54:10Z conntrack_entries{node="dn16-control-plane"} 666
+2026-09-12T03:54:10Z conntrack_entries{node="dn16-worker"} 264
+2026-09-12T03:54:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 115
+2026-09-12T03:54:10Z netstat_IpFragFails{host="vpngw"} 115
+2026-09-12T03:54:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 42
+2026-09-12T03:54:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 119
+2026-09-12T03:54:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 115
+2026-09-12T03:54:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:54:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:54:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 54
+2026-09-12T03:54:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:54:25Z conntrack_entries{node="dn16-control-plane"} 438
+2026-09-12T03:54:25Z conntrack_entries{node="dn16-worker"} 191
+2026-09-12T03:54:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 140
+2026-09-12T03:54:25Z netstat_IpFragFails{host="vpngw"} 140
+2026-09-12T03:54:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 54
+2026-09-12T03:54:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 138
+2026-09-12T03:54:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 140
+2026-09-12T03:54:25Z nginx_connections_active{host="edge"} 2
+2026-09-12T03:54:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:54:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 57
+2026-09-12T03:54:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:54:40Z conntrack_entries{node="dn16-control-plane"} 512
+2026-09-12T03:54:40Z conntrack_entries{node="dn16-worker"} 210
+2026-09-12T03:54:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 163
+2026-09-12T03:54:40Z netstat_IpFragFails{host="vpngw"} 163
+2026-09-12T03:54:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 67
+2026-09-12T03:54:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 158
+2026-09-12T03:54:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 163
+2026-09-12T03:54:40Z nginx_connections_active{host="edge"} 3
+2026-09-12T03:54:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:54:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 59
+2026-09-12T03:54:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:54:55Z conntrack_entries{node="dn16-control-plane"} 585
+2026-09-12T03:54:55Z conntrack_entries{node="dn16-worker"} 233
+2026-09-12T03:54:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 194
+2026-09-12T03:54:55Z netstat_IpFragFails{host="vpngw"} 194
+2026-09-12T03:54:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 91
+2026-09-12T03:54:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 179
+2026-09-12T03:54:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 194
+2026-09-12T03:54:55Z nginx_connections_active{host="edge"} 2
+2026-09-12T03:55:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:55:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 60
+2026-09-12T03:55:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:55:10Z conntrack_entries{node="dn16-control-plane"} 658
+2026-09-12T03:55:10Z conntrack_entries{node="dn16-worker"} 258
+2026-09-12T03:55:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 217
+2026-09-12T03:55:10Z netstat_IpFragFails{host="vpngw"} 217
+2026-09-12T03:55:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 112
+2026-09-12T03:55:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 189
+2026-09-12T03:55:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 217
+2026-09-12T03:55:10Z nginx_connections_active{host="edge"} 3
+2026-09-12T03:55:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:55:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 63
+2026-09-12T03:55:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:55:25Z conntrack_entries{node="dn16-control-plane"} 431
+2026-09-12T03:55:25Z conntrack_entries{node="dn16-worker"} 187
+2026-09-12T03:55:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 245
+2026-09-12T03:55:25Z netstat_IpFragFails{host="vpngw"} 245
+2026-09-12T03:55:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 133
+2026-09-12T03:55:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 208
+2026-09-12T03:55:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 245
+2026-09-12T03:55:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:55:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 54
+2026-09-12T03:55:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 64
+2026-09-12T03:55:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 32
+2026-09-12T03:55:40Z conntrack_entries{node="dn16-control-plane"} 496
+2026-09-12T03:55:40Z conntrack_entries{node="dn16-worker"} 207
+2026-09-12T03:55:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 245
+2026-09-12T03:55:40Z netstat_IpFragFails{host="vpngw"} 245
+2026-09-12T03:55:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 133
+2026-09-12T03:55:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 210
+2026-09-12T03:55:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 245
+2026-09-12T03:55:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:55:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 55
+2026-09-12T03:55:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 66
+2026-09-12T03:55:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 34
+2026-09-12T03:55:55Z conntrack_entries{node="dn16-control-plane"} 570
+2026-09-12T03:55:55Z conntrack_entries{node="dn16-worker"} 232
+2026-09-12T03:55:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 270
+2026-09-12T03:55:55Z netstat_IpFragFails{host="vpngw"} 270
+2026-09-12T03:55:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 154
+2026-09-12T03:55:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 222
+2026-09-12T03:55:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 270
+2026-09-12T03:55:55Z nginx_connections_active{host="edge"} 2
+2026-09-12T03:56:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 55
+2026-09-12T03:56:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 69
+2026-09-12T03:56:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 34
+2026-09-12T03:56:10Z conntrack_entries{node="dn16-control-plane"} 638
+2026-09-12T03:56:10Z conntrack_entries{node="dn16-worker"} 251
+2026-09-12T03:56:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 270
+2026-09-12T03:56:10Z netstat_IpFragFails{host="vpngw"} 270
+2026-09-12T03:56:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 154
+2026-09-12T03:56:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 224
+2026-09-12T03:56:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 270
+2026-09-12T03:56:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:56:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 56
+2026-09-12T03:56:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 69
+2026-09-12T03:56:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 34
+2026-09-12T03:56:25Z conntrack_entries{node="dn16-control-plane"} 420
+2026-09-12T03:56:25Z conntrack_entries{node="dn16-worker"} 181
+2026-09-12T03:56:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 275
+2026-09-12T03:56:25Z netstat_IpFragFails{host="vpngw"} 275
+2026-09-12T03:56:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 154
+2026-09-12T03:56:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 231
+2026-09-12T03:56:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 275
+2026-09-12T03:56:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:56:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 56
+2026-09-12T03:56:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 72
+2026-09-12T03:56:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 34
+2026-09-12T03:56:40Z conntrack_entries{node="dn16-control-plane"} 491
+2026-09-12T03:56:40Z conntrack_entries{node="dn16-worker"} 199
+2026-09-12T03:56:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 299
+2026-09-12T03:56:40Z netstat_IpFragFails{host="vpngw"} 299
+2026-09-12T03:56:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 158
+2026-09-12T03:56:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 259
+2026-09-12T03:56:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 299
+2026-09-12T03:56:40Z nginx_connections_active{host="edge"} 2
+2026-09-12T03:56:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 58
+2026-09-12T03:56:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 75
+2026-09-12T03:56:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 34
+2026-09-12T03:56:55Z conntrack_entries{node="dn16-control-plane"} 558
+2026-09-12T03:56:55Z conntrack_entries{node="dn16-worker"} 220
+2026-09-12T03:56:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 305
+2026-09-12T03:56:55Z netstat_IpFragFails{host="vpngw"} 305
+2026-09-12T03:56:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 161
+2026-09-12T03:56:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 266
+2026-09-12T03:56:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 305
+2026-09-12T03:56:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:57:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 58
+2026-09-12T03:57:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 75
+2026-09-12T03:57:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 34
+2026-09-12T03:57:10Z conntrack_entries{node="dn16-control-plane"} 627
+2026-09-12T03:57:10Z conntrack_entries{node="dn16-worker"} 245
+2026-09-12T03:57:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 334
+2026-09-12T03:57:10Z netstat_IpFragFails{host="vpngw"} 334
+2026-09-12T03:57:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 172
+2026-09-12T03:57:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 294
+2026-09-12T03:57:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 334
+2026-09-12T03:57:10Z nginx_connections_active{host="edge"} 3
+2026-09-12T03:57:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:57:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 78
+2026-09-12T03:57:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 35
+2026-09-12T03:57:25Z conntrack_entries{node="dn16-control-plane"} 695
+2026-09-12T03:57:25Z conntrack_entries{node="dn16-worker"} 266
+2026-09-12T03:57:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 345
+2026-09-12T03:57:25Z netstat_IpFragFails{host="vpngw"} 345
+2026-09-12T03:57:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 189
+2026-09-12T03:57:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 294
+2026-09-12T03:57:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 345
+2026-09-12T03:57:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:57:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:57:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 81
+2026-09-12T03:57:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 35
+2026-09-12T03:57:40Z conntrack_entries{node="dn16-control-plane"} 475
+2026-09-12T03:57:40Z conntrack_entries{node="dn16-worker"} 200
+2026-09-12T03:57:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 380
+2026-09-12T03:57:40Z netstat_IpFragFails{host="vpngw"} 380
+2026-09-12T03:57:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 217
+2026-09-12T03:57:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 313
+2026-09-12T03:57:40Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:57:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 380
+2026-09-12T03:57:40Z nginx_connections_active{host="edge"} 2
+2026-09-12T03:57:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:57:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 81
+2026-09-12T03:57:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 42
+2026-09-12T03:57:55Z conntrack_entries{node="dn16-control-plane"} 550
+2026-09-12T03:57:55Z conntrack_entries{node="dn16-worker"} 230
+2026-09-12T03:57:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 395
+2026-09-12T03:57:55Z netstat_IpFragFails{host="vpngw"} 395
+2026-09-12T03:57:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 231
+2026-09-12T03:57:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 322
+2026-09-12T03:57:55Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:57:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 395
+2026-09-12T03:57:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:58:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:58:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 84
+2026-09-12T03:58:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 43
+2026-09-12T03:58:10Z conntrack_entries{node="dn16-control-plane"} 620
+2026-09-12T03:58:10Z conntrack_entries{node="dn16-worker"} 248
+2026-09-12T03:58:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 405
+2026-09-12T03:58:10Z netstat_IpFragFails{host="vpngw"} 405
+2026-09-12T03:58:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 231
+2026-09-12T03:58:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 336
+2026-09-12T03:58:10Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:58:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 405
+2026-09-12T03:58:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:58:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:58:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 87
+2026-09-12T03:58:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 43
+2026-09-12T03:58:25Z conntrack_entries{node="dn16-control-plane"} 697
+2026-09-12T03:58:25Z conntrack_entries{node="dn16-worker"} 275
+2026-09-12T03:58:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 420
+2026-09-12T03:58:25Z netstat_IpFragFails{host="vpngw"} 420
+2026-09-12T03:58:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 238
+2026-09-12T03:58:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 350
+2026-09-12T03:58:25Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:58:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 420
+2026-09-12T03:58:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:58:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:58:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 87
+2026-09-12T03:58:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 44
+2026-09-12T03:58:40Z conntrack_entries{node="dn16-control-plane"} 481
+2026-09-12T03:58:40Z conntrack_entries{node="dn16-worker"} 205
+2026-09-12T03:58:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 443
+2026-09-12T03:58:40Z netstat_IpFragFails{host="vpngw"} 443
+2026-09-12T03:58:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 245
+2026-09-12T03:58:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 375
+2026-09-12T03:58:40Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:58:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 443
+2026-09-12T03:58:40Z nginx_connections_active{host="edge"} 2
+2026-09-12T03:58:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:58:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 90
+2026-09-12T03:58:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 44
+2026-09-12T03:58:55Z conntrack_entries{node="dn16-control-plane"} 555
+2026-09-12T03:58:55Z conntrack_entries{node="dn16-worker"} 234
+2026-09-12T03:58:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 470
+2026-09-12T03:58:55Z netstat_IpFragFails{host="vpngw"} 470
+2026-09-12T03:58:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 259
+2026-09-12T03:58:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 399
+2026-09-12T03:58:55Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:58:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 470
+2026-09-12T03:58:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:59:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:59:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 93
+2026-09-12T03:59:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 44
+2026-09-12T03:59:10Z conntrack_entries{node="dn16-control-plane"} 623
+2026-09-12T03:59:10Z conntrack_entries{node="dn16-worker"} 264
+2026-09-12T03:59:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 489
+2026-09-12T03:59:10Z netstat_IpFragFails{host="vpngw"} 489
+2026-09-12T03:59:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 277
+2026-09-12T03:59:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 406
+2026-09-12T03:59:10Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:59:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 489
+2026-09-12T03:59:10Z nginx_connections_active{host="edge"} 2
+2026-09-12T03:59:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:59:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 93
+2026-09-12T03:59:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 44
+2026-09-12T03:59:25Z conntrack_entries{node="dn16-control-plane"} 692
+2026-09-12T03:59:25Z conntrack_entries{node="dn16-worker"} 290
+2026-09-12T03:59:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 490
+2026-09-12T03:59:25Z netstat_IpFragFails{host="vpngw"} 490
+2026-09-12T03:59:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 280
+2026-09-12T03:59:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 406
+2026-09-12T03:59:25Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:59:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 490
+2026-09-12T03:59:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:59:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:59:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 96
+2026-09-12T03:59:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 44
+2026-09-12T03:59:40Z conntrack_entries{node="dn16-control-plane"} 471
+2026-09-12T03:59:40Z conntrack_entries{node="dn16-worker"} 226
+2026-09-12T03:59:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 500
+2026-09-12T03:59:40Z netstat_IpFragFails{host="vpngw"} 500
+2026-09-12T03:59:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 287
+2026-09-12T03:59:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 413
+2026-09-12T03:59:40Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:59:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 500
+2026-09-12T03:59:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T03:59:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T03:59:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 99
+2026-09-12T03:59:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 45
+2026-09-12T03:59:55Z conntrack_entries{node="dn16-control-plane"} 545
+2026-09-12T03:59:55Z conntrack_entries{node="dn16-worker"} 258
+2026-09-12T03:59:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 523
+2026-09-12T03:59:55Z netstat_IpFragFails{host="vpngw"} 523
+2026-09-12T03:59:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 311
+2026-09-12T03:59:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 418
+2026-09-12T03:59:55Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 0
+2026-09-12T03:59:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 523
+2026-09-12T03:59:55Z nginx_connections_active{host="edge"} 2
+2026-09-12T04:00:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:00:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 103
+2026-09-12T04:00:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 45
+2026-09-12T04:00:10Z conntrack_entries{node="dn16-control-plane"} 611
+2026-09-12T04:00:10Z conntrack_entries{node="dn16-worker"} 283
+2026-09-12T04:00:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 543
+2026-09-12T04:00:10Z netstat_IpFragFails{host="vpngw"} 543
+2026-09-12T04:00:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 330
+2026-09-12T04:00:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 427
+2026-09-12T04:00:10Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 2
+2026-09-12T04:00:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 543
+2026-09-12T04:00:10Z nginx_connections_active{host="edge"} 2
+2026-09-12T04:00:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:00:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 114
+2026-09-12T04:00:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 45
+2026-09-12T04:00:25Z conntrack_entries{node="dn16-control-plane"} 683
+2026-09-12T04:00:25Z conntrack_entries{node="dn16-worker"} 312
+2026-09-12T04:00:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 550
+2026-09-12T04:00:25Z netstat_IpFragFails{host="vpngw"} 550
+2026-09-12T04:00:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 343
+2026-09-12T04:00:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 427
+2026-09-12T04:00:25Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 6
+2026-09-12T04:00:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 550
+2026-09-12T04:00:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:00:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:00:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 120
+2026-09-12T04:00:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 45
+2026-09-12T04:00:40Z conntrack_entries{node="dn16-control-plane"} 450
+2026-09-12T04:00:40Z conntrack_entries{node="dn16-worker"} 236
+2026-09-12T04:00:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 555
+2026-09-12T04:00:40Z netstat_IpFragFails{host="vpngw"} 555
+2026-09-12T04:00:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 348
+2026-09-12T04:00:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 427
+2026-09-12T04:00:40Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 8
+2026-09-12T04:00:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 555
+2026-09-12T04:00:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:00:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:00:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 122
+2026-09-12T04:00:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 45
+2026-09-12T04:00:55Z conntrack_entries{node="dn16-control-plane"} 526
+2026-09-12T04:00:55Z conntrack_entries{node="dn16-worker"} 261
+2026-09-12T04:00:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 560
+2026-09-12T04:00:55Z netstat_IpFragFails{host="vpngw"} 560
+2026-09-12T04:00:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 350
+2026-09-12T04:00:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 434
+2026-09-12T04:00:55Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 8
+2026-09-12T04:00:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 560
+2026-09-12T04:00:55Z nginx_connections_active{host="edge"} 2
+2026-09-12T04:01:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:01:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 140
+2026-09-12T04:01:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 45
+2026-09-12T04:01:10Z conntrack_entries{node="dn16-control-plane"} 598
+2026-09-12T04:01:10Z conntrack_entries{node="dn16-worker"} 286
+2026-09-12T04:01:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 570
+2026-09-12T04:01:10Z netstat_IpFragFails{host="vpngw"} 570
+2026-09-12T04:01:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 357
+2026-09-12T04:01:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 439
+2026-09-12T04:01:10Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 16
+2026-09-12T04:01:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 570
+2026-09-12T04:01:10Z nginx_connections_active{host="edge"} 2
+2026-09-12T04:01:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:01:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 149
+2026-09-12T04:01:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 45
+2026-09-12T04:01:25Z conntrack_entries{node="dn16-control-plane"} 670
+2026-09-12T04:01:25Z conntrack_entries{node="dn16-worker"} 313
+2026-09-12T04:01:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 590
+2026-09-12T04:01:25Z netstat_IpFragFails{host="vpngw"} 590
+2026-09-12T04:01:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 364
+2026-09-12T04:01:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 462
+2026-09-12T04:01:25Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 20
+2026-09-12T04:01:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 590
+2026-09-12T04:01:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:01:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:01:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 159
+2026-09-12T04:01:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 46
+2026-09-12T04:01:40Z conntrack_entries{node="dn16-control-plane"} 451
+2026-09-12T04:01:40Z conntrack_entries{node="dn16-worker"} 220
+2026-09-12T04:01:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 595
+2026-09-12T04:01:40Z netstat_IpFragFails{host="vpngw"} 595
+2026-09-12T04:01:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 364
+2026-09-12T04:01:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 469
+2026-09-12T04:01:40Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 24
+2026-09-12T04:01:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 595
+2026-09-12T04:01:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:01:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:01:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 170
+2026-09-12T04:01:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 46
+2026-09-12T04:01:55Z conntrack_entries{node="dn16-control-plane"} 526
+2026-09-12T04:01:55Z conntrack_entries{node="dn16-worker"} 250
+2026-09-12T04:01:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 600
+2026-09-12T04:01:55Z netstat_IpFragFails{host="vpngw"} 600
+2026-09-12T04:01:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 371
+2026-09-12T04:01:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 469
+2026-09-12T04:01:55Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 28
+2026-09-12T04:01:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 600
+2026-09-12T04:01:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:02:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:02:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 178
+2026-09-12T04:02:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 46
+2026-09-12T04:02:10Z conntrack_entries{node="dn16-control-plane"} 593
+2026-09-12T04:02:10Z conntrack_entries{node="dn16-worker"} 271
+2026-09-12T04:02:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 605
+2026-09-12T04:02:10Z netstat_IpFragFails{host="vpngw"} 605
+2026-09-12T04:02:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 378
+2026-09-12T04:02:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 469
+2026-09-12T04:02:10Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 32
+2026-09-12T04:02:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 605
+2026-09-12T04:02:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:02:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:02:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 185
+2026-09-12T04:02:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 46
+2026-09-12T04:02:25Z conntrack_entries{node="dn16-control-plane"} 663
+2026-09-12T04:02:25Z conntrack_entries{node="dn16-worker"} 297
+2026-09-12T04:02:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 608
+2026-09-12T04:02:25Z netstat_IpFragFails{host="vpngw"} 608
+2026-09-12T04:02:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 381
+2026-09-12T04:02:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 469
+2026-09-12T04:02:25Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 34
+2026-09-12T04:02:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 608
+2026-09-12T04:02:25Z nginx_connections_active{host="edge"} 2
+2026-09-12T04:02:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:02:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 190
+2026-09-12T04:02:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 46
+2026-09-12T04:02:40Z conntrack_entries{node="dn16-control-plane"} 447
+2026-09-12T04:02:40Z conntrack_entries{node="dn16-worker"} 213
+2026-09-12T04:02:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 615
+2026-09-12T04:02:40Z netstat_IpFragFails{host="vpngw"} 615
+2026-09-12T04:02:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 392
+2026-09-12T04:02:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 469
+2026-09-12T04:02:40Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 35
+2026-09-12T04:02:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 615
+2026-09-12T04:02:40Z nginx_connections_active{host="edge"} 2
+2026-09-12T04:02:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:02:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 200
+2026-09-12T04:02:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 46
+2026-09-12T04:02:55Z conntrack_entries{node="dn16-control-plane"} 518
+2026-09-12T04:02:55Z conntrack_entries{node="dn16-worker"} 240
+2026-09-12T04:02:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 620
+2026-09-12T04:02:55Z netstat_IpFragFails{host="vpngw"} 620
+2026-09-12T04:02:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 392
+2026-09-12T04:02:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 476
+2026-09-12T04:02:55Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 40
+2026-09-12T04:02:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 620
+2026-09-12T04:02:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:03:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:03:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 214
+2026-09-12T04:03:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 46
+2026-09-12T04:03:10Z conntrack_entries{node="dn16-control-plane"} 590
+2026-09-12T04:03:10Z conntrack_entries{node="dn16-worker"} 265
+2026-09-12T04:03:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 633
+2026-09-12T04:03:10Z netstat_IpFragFails{host="vpngw"} 633
+2026-09-12T04:03:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 409
+2026-09-12T04:03:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 476
+2026-09-12T04:03:10Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 45
+2026-09-12T04:03:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 633
+2026-09-12T04:03:10Z nginx_connections_active{host="edge"} 3
+2026-09-12T04:03:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:03:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 230
+2026-09-12T04:03:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 46
+2026-09-12T04:03:25Z conntrack_entries{node="dn16-control-plane"} 659
+2026-09-12T04:03:25Z conntrack_entries{node="dn16-worker"} 295
+2026-09-12T04:03:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 640
+2026-09-12T04:03:25Z netstat_IpFragFails{host="vpngw"} 640
+2026-09-12T04:03:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 420
+2026-09-12T04:03:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 476
+2026-09-12T04:03:25Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 52
+2026-09-12T04:03:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 640
+2026-09-12T04:03:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:03:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:03:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 234
+2026-09-12T04:03:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 46
+2026-09-12T04:03:40Z conntrack_entries{node="dn16-control-plane"} 447
+2026-09-12T04:03:40Z conntrack_entries{node="dn16-worker"} 214
+2026-09-12T04:03:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 660
+2026-09-12T04:03:40Z netstat_IpFragFails{host="vpngw"} 660
+2026-09-12T04:03:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 434
+2026-09-12T04:03:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 490
+2026-09-12T04:03:40Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 54
+2026-09-12T04:03:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 660
+2026-09-12T04:03:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:03:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:03:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 245
+2026-09-12T04:03:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 47
+2026-09-12T04:03:55Z conntrack_entries{node="dn16-control-plane"} 517
+2026-09-12T04:03:55Z conntrack_entries{node="dn16-worker"} 242
+2026-09-12T04:03:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 675
+2026-09-12T04:03:55Z netstat_IpFragFails{host="vpngw"} 675
+2026-09-12T04:03:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 448
+2026-09-12T04:03:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 497
+2026-09-12T04:03:55Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 58
+2026-09-12T04:03:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 675
+2026-09-12T04:03:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:04:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 59
+2026-09-12T04:04:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 256
+2026-09-12T04:04:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 47
+2026-09-12T04:04:10Z conntrack_entries{node="dn16-control-plane"} 586
+2026-09-12T04:04:10Z conntrack_entries{node="dn16-worker"} 263
+2026-09-12T04:04:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 695
+2026-09-12T04:04:10Z netstat_IpFragFails{host="vpngw"} 695
+2026-09-12T04:04:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 469
+2026-09-12T04:04:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 504
+2026-09-12T04:04:10Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 62
+2026-09-12T04:04:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 695
+2026-09-12T04:04:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:04:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 60
+2026-09-12T04:04:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 268
+2026-09-12T04:04:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 48
+2026-09-12T04:04:25Z conntrack_entries{node="dn16-control-plane"} 657
+2026-09-12T04:04:25Z conntrack_entries{node="dn16-worker"} 290
+2026-09-12T04:04:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 714
+2026-09-12T04:04:25Z netstat_IpFragFails{host="vpngw"} 714
+2026-09-12T04:04:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 488
+2026-09-12T04:04:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 508
+2026-09-12T04:04:25Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 68
+2026-09-12T04:04:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 714
+2026-09-12T04:04:25Z nginx_connections_active{host="edge"} 3
+2026-09-12T04:04:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 60
+2026-09-12T04:04:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 279
+2026-09-12T04:04:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 48
+2026-09-12T04:04:40Z conntrack_entries{node="dn16-control-plane"} 429
+2026-09-12T04:04:40Z conntrack_entries{node="dn16-worker"} 210
+2026-09-12T04:04:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 715
+2026-09-12T04:04:40Z netstat_IpFragFails{host="vpngw"} 715
+2026-09-12T04:04:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 490
+2026-09-12T04:04:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 511
+2026-09-12T04:04:40Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 72
+2026-09-12T04:04:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 715
+2026-09-12T04:04:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:04:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 60
+2026-09-12T04:04:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 290
+2026-09-12T04:04:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 48
+2026-09-12T04:04:55Z conntrack_entries{node="dn16-control-plane"} 500
+2026-09-12T04:04:55Z conntrack_entries{node="dn16-worker"} 236
+2026-09-12T04:04:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 734
+2026-09-12T04:04:55Z netstat_IpFragFails{host="vpngw"} 734
+2026-09-12T04:04:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 497
+2026-09-12T04:04:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 529
+2026-09-12T04:04:55Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 76
+2026-09-12T04:04:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 734
+2026-09-12T04:04:55Z nginx_connections_active{host="edge"} 2
+2026-09-12T04:05:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 60
+2026-09-12T04:05:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 298
+2026-09-12T04:05:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 48
+2026-09-12T04:05:10Z conntrack_entries{node="dn16-control-plane"} 568
+2026-09-12T04:05:10Z conntrack_entries{node="dn16-worker"} 258
+2026-09-12T04:05:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 740
+2026-09-12T04:05:10Z netstat_IpFragFails{host="vpngw"} 740
+2026-09-12T04:05:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 504
+2026-09-12T04:05:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 532
+2026-09-12T04:05:10Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 80
+2026-09-12T04:05:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 740
+2026-09-12T04:05:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:05:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 60
+2026-09-12T04:05:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 301
+2026-09-12T04:05:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 48
+2026-09-12T04:05:25Z conntrack_entries{node="dn16-control-plane"} 636
+2026-09-12T04:05:25Z conntrack_entries{node="dn16-worker"} 284
+2026-09-12T04:05:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 740
+2026-09-12T04:05:25Z netstat_IpFragFails{host="vpngw"} 740
+2026-09-12T04:05:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 504
+2026-09-12T04:05:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 532
+2026-09-12T04:05:25Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 80
+2026-09-12T04:05:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 740
+2026-09-12T04:05:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:05:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 61
+2026-09-12T04:05:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 312
+2026-09-12T04:05:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 48
+2026-09-12T04:05:40Z conntrack_entries{node="dn16-control-plane"} 417
+2026-09-12T04:05:40Z conntrack_entries{node="dn16-worker"} 204
+2026-09-12T04:05:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 755
+2026-09-12T04:05:40Z netstat_IpFragFails{host="vpngw"} 755
+2026-09-12T04:05:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 516
+2026-09-12T04:05:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 539
+2026-09-12T04:05:40Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 84
+2026-09-12T04:05:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 755
+2026-09-12T04:05:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:05:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 61
+2026-09-12T04:05:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 324
+2026-09-12T04:05:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T04:05:55Z conntrack_entries{node="dn16-control-plane"} 489
+2026-09-12T04:05:55Z conntrack_entries{node="dn16-worker"} 235
+2026-09-12T04:05:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 764
+2026-09-12T04:05:55Z netstat_IpFragFails{host="vpngw"} 764
+2026-09-12T04:05:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 523
+2026-09-12T04:05:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 543
+2026-09-12T04:05:55Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 90
+2026-09-12T04:05:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 764
+2026-09-12T04:05:55Z nginx_connections_active{host="edge"} 3
+2026-09-12T04:06:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 63
+2026-09-12T04:06:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 331
+2026-09-12T04:06:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T04:06:10Z conntrack_entries{node="dn16-control-plane"} 558
+2026-09-12T04:06:10Z conntrack_entries{node="dn16-worker"} 257
+2026-09-12T04:06:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 781
+2026-09-12T04:06:10Z netstat_IpFragFails{host="vpngw"} 781
+2026-09-12T04:06:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 532
+2026-09-12T04:06:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 555
+2026-09-12T04:06:10Z netstat_TcpRetransSegs{pod="checkout-v2-564ddf567d-wmzzj"} 92
+2026-09-12T04:06:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 781
+2026-09-12T04:06:10Z nginx_connections_active{host="edge"} 5
+2026-09-12T04:06:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 63
+2026-09-12T04:06:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 333
+2026-09-12T04:06:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T04:06:25Z conntrack_entries{node="dn16-control-plane"} 631
+2026-09-12T04:06:25Z conntrack_entries{node="dn16-worker"} 286
+2026-09-12T04:06:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 800
+2026-09-12T04:06:25Z netstat_IpFragFails{host="vpngw"} 800
+2026-09-12T04:06:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 553
+2026-09-12T04:06:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 567
+2026-09-12T04:06:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 800
+2026-09-12T04:06:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:06:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 63
+2026-09-12T04:06:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 334
+2026-09-12T04:06:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T04:06:40Z conntrack_entries{node="dn16-control-plane"} 414
+2026-09-12T04:06:40Z conntrack_entries{node="dn16-worker"} 208
+2026-09-12T04:06:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 824
+2026-09-12T04:06:40Z netstat_IpFragFails{host="vpngw"} 824
+2026-09-12T04:06:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 583
+2026-09-12T04:06:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 567
+2026-09-12T04:06:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 824
+2026-09-12T04:06:40Z nginx_connections_active{host="edge"} 3
+2026-09-12T04:06:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 63
+2026-09-12T04:06:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 337
+2026-09-12T04:06:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 49
+2026-09-12T04:06:55Z conntrack_entries{node="dn16-control-plane"} 486
+2026-09-12T04:06:55Z conntrack_entries{node="dn16-worker"} 237
+2026-09-12T04:06:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 840
+2026-09-12T04:06:55Z netstat_IpFragFails{host="vpngw"} 840
+2026-09-12T04:06:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 609
+2026-09-12T04:06:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 567
+2026-09-12T04:06:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 840
+2026-09-12T04:06:55Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:07:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 63
+2026-09-12T04:07:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 338
+2026-09-12T04:07:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:07:10Z conntrack_entries{node="dn16-control-plane"} 555
+2026-09-12T04:07:10Z conntrack_entries{node="dn16-worker"} 258
+2026-09-12T04:07:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 855
+2026-09-12T04:07:10Z netstat_IpFragFails{host="vpngw"} 855
+2026-09-12T04:07:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 621
+2026-09-12T04:07:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 574
+2026-09-12T04:07:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 855
+2026-09-12T04:07:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:07:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 63
+2026-09-12T04:07:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 340
+2026-09-12T04:07:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:07:25Z conntrack_entries{node="dn16-control-plane"} 625
+2026-09-12T04:07:25Z conntrack_entries{node="dn16-worker"} 283
+2026-09-12T04:07:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 870
+2026-09-12T04:07:25Z netstat_IpFragFails{host="vpngw"} 870
+2026-09-12T04:07:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 630
+2026-09-12T04:07:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 588
+2026-09-12T04:07:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 870
+2026-09-12T04:07:25Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:07:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 63
+2026-09-12T04:07:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 343
+2026-09-12T04:07:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:07:40Z conntrack_entries{node="dn16-control-plane"} 424
+2026-09-12T04:07:40Z conntrack_entries{node="dn16-worker"} 195
+2026-09-12T04:07:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 890
+2026-09-12T04:07:40Z netstat_IpFragFails{host="vpngw"} 890
+2026-09-12T04:07:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 642
+2026-09-12T04:07:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 602
+2026-09-12T04:07:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 890
+2026-09-12T04:07:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:07:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 63
+2026-09-12T04:07:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 343
+2026-09-12T04:07:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:07:55Z conntrack_entries{node="dn16-control-plane"} 496
+2026-09-12T04:07:55Z conntrack_entries{node="dn16-worker"} 220
+2026-09-12T04:07:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 899
+2026-09-12T04:07:55Z netstat_IpFragFails{host="vpngw"} 899
+2026-09-12T04:07:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 651
+2026-09-12T04:07:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 606
+2026-09-12T04:07:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 899
+2026-09-12T04:07:55Z nginx_connections_active{host="edge"} 2
+2026-09-12T04:08:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 63
+2026-09-12T04:08:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 346
+2026-09-12T04:08:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:08:10Z conntrack_entries{node="dn16-control-plane"} 562
+2026-09-12T04:08:10Z conntrack_entries{node="dn16-worker"} 236
+2026-09-12T04:08:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 905
+2026-09-12T04:08:10Z netstat_IpFragFails{host="vpngw"} 905
+2026-09-12T04:08:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 658
+2026-09-12T04:08:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 609
+2026-09-12T04:08:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 905
+2026-09-12T04:08:10Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:08:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 64
+2026-09-12T04:08:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 349
+2026-09-12T04:08:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:08:25Z conntrack_entries{node="dn16-control-plane"} 637
+2026-09-12T04:08:25Z conntrack_entries{node="dn16-worker"} 261
+2026-09-12T04:08:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 928
+2026-09-12T04:08:25Z netstat_IpFragFails{host="vpngw"} 928
+2026-09-12T04:08:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 669
+2026-09-12T04:08:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 624
+2026-09-12T04:08:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 928
+2026-09-12T04:08:25Z nginx_connections_active{host="edge"} 3
+2026-09-12T04:08:40Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 64
+2026-09-12T04:08:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 349
+2026-09-12T04:08:40Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:08:40Z conntrack_entries{node="dn16-control-plane"} 704
+2026-09-12T04:08:40Z conntrack_entries{node="dn16-worker"} 281
+2026-09-12T04:08:40Z netstat_IcmpOutDestUnreachs{host="vpngw"} 930
+2026-09-12T04:08:40Z netstat_IpFragFails{host="vpngw"} 930
+2026-09-12T04:08:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 671
+2026-09-12T04:08:40Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 630
+2026-09-12T04:08:40Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 930
+2026-09-12T04:08:40Z nginx_connections_active{host="edge"} 1
+2026-09-12T04:08:55Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 64
+2026-09-12T04:08:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 352
+2026-09-12T04:08:55Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:08:55Z conntrack_entries{node="dn16-control-plane"} 484
+2026-09-12T04:08:55Z conntrack_entries{node="dn16-worker"} 208
+2026-09-12T04:08:55Z netstat_IcmpOutDestUnreachs{host="vpngw"} 974
+2026-09-12T04:08:55Z netstat_IpFragFails{host="vpngw"} 974
+2026-09-12T04:08:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 699
+2026-09-12T04:08:55Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 662
+2026-09-12T04:08:55Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 974
+2026-09-12T04:08:55Z nginx_connections_active{host="edge"} 2
+2026-09-12T04:09:10Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 64
+2026-09-12T04:09:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 355
+2026-09-12T04:09:10Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:09:10Z conntrack_entries{node="dn16-control-plane"} 554
+2026-09-12T04:09:10Z conntrack_entries{node="dn16-worker"} 228
+2026-09-12T04:09:10Z netstat_IcmpOutDestUnreachs{host="vpngw"} 983
+2026-09-12T04:09:10Z netstat_IpFragFails{host="vpngw"} 983
+2026-09-12T04:09:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 703
+2026-09-12T04:09:10Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 669
+2026-09-12T04:09:10Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 983
+2026-09-12T04:09:10Z nginx_connections_active{host="edge"} 3
+2026-09-12T04:09:25Z cilium_drop_count_total{node="dn16-control-plane",direction="EGRESS",reason="Unsupported L3 protocol"} 64
+2026-09-12T04:09:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Policy denied"} 355
+2026-09-12T04:09:25Z cilium_drop_count_total{node="dn16-worker",direction="EGRESS",reason="Unsupported L3 protocol"} 50
+2026-09-12T04:09:25Z conntrack_entries{node="dn16-control-plane"} 621
+2026-09-12T04:09:25Z conntrack_entries{node="dn16-worker"} 246
+2026-09-12T04:09:25Z netstat_IcmpOutDestUnreachs{host="vpngw"} 985
+2026-09-12T04:09:25Z netstat_IpFragFails{host="vpngw"} 985
+2026-09-12T04:09:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-7rfwh"} 706
+2026-09-12T04:09:25Z netstat_TcpRetransSegs{pod="checkout-55c977f84d-f7jkj"} 672
+2026-09-12T04:09:25Z nftables_rule_packets_total{host="vpngw",table="inet hardening",chain="output",rule="icmp type destination-unreachable drop"} 985
+2026-09-12T04:09:25Z nginx_connections_active{host="edge"} 1

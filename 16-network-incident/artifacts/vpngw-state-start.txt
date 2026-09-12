@@ -1,0 +1,26 @@
+# Снято: 2026-09-12T03:47:40Z
+# Точка: dn16-vpngw, сетевой namespace шлюза
+
+$ ip -br addr
+lo               UNKNOWN        127.0.0.1/8 ::1/128 
+eth0@if509       UP             172.19.0.5/16 fc00:f853:ccd:e793::5/64 fe80::68c6:2cff:fea6:e2ed/64 
+eth1@if510       UP             192.0.2.10/24 
+
+$ ip -o link show | mtu
+lo: mtu 65536
+eth0@if509: mtu 1500
+eth1@if510: mtu 1500
+
+$ ip route
+default via 172.19.0.1 dev eth0 
+172.19.0.0/16 dev eth0 proto kernel scope link src 172.19.0.5 
+192.0.2.0/24 dev eth1 proto kernel scope link src 192.0.2.10 
+198.51.100.0/24 via 192.0.2.20 dev eth1 
+
+$ nft list ruleset
+
+$ nstat -az IpForwDatagrams IpFragFails IcmpOutDestUnreachs
+#kernel
+IpForwDatagrams                 0                  0.0
+IpFragFails                     0                  0.0
+IcmpOutDestUnreachs             0                  0.0
